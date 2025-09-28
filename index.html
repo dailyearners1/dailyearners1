@@ -1774,13 +1774,13 @@
                                 <i class="fab fa-whatsapp icon-large whatsapp-color"></i>
                                 <h3>WhatsApp Support</h3>
                                 <p>Chat with us instantly:</p>
-                                <a href="https://wa.me/256700913516" target="_blank" class="btn btn-whatsapp">0746160623</a>
+                                <a href="https://wa.me/256700913516" target="_blank" class="btn btn-whatsapp">0749846848</a>
                             </div>
                             <div class="contact-card">
                                 <i class="fab fa-telegram-plane icon-large telegram-color"></i>
                                 <h3>Telegram Support</h3>
                                 <p>Connect on Telegram:</p>
-                                <a href="https://t.me/your_telegram_username_or_number" target="_blank" class="btn btn-telegram">0700913516</a>
+                                <a href="https://t.me/your_telegram_username_or_number" target="_blank" class="btn btn-telegram">0706571957</a>
                             </div>
                             <div class="contact-card">
                                 <i class="fas fa-envelope icon-large email-color"></i>
@@ -1805,6 +1805,9 @@
                             <button onclick="showAdminTab('pending-deposits')" class="btn btn-primary">Pending Deposits</button>
                             <button onclick="showAdminTab('pending-withdrawals')" class="btn btn-info">Pending Withdrawals</button>
                             <button onclick="showAdminTab('all-users')" class="btn btn-success">All Users</button>
+                            <button onclick="testAdminFunctions()" class="btn btn-warning" style="margin-left: 10px;">Debug/Test Functions</button>
+                            <button onclick="testFirebasePermissions()" class="btn btn-secondary" style="margin-left: 5px;">Test Permissions</button>
+                            <button onclick="forceRefreshAdminData()" class="btn btn-info" style="margin-left: 5px;">🔄 Force Refresh</button>
                         </div>
 
                         <div id="pending-deposits-tab" class="admin-tab-content" style="display: block;">
@@ -2003,91 +2006,102 @@
         }
 
         // Authentication Functions
-        function signInWithGoogle() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            provider.addScope('profile');
-            provider.addScope('email');
+        async function signInWithGoogle() {
+            try {
+                console.log('🔄 Starting Google Sign-In...');
 
-            auth.signInWithPopup(provider)
-                .then((result) => {
-                    const user = result.user;
-                    console.log('Google Sign-In successful:', user);
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.addScope('profile');
+                provider.addScope('email');
 
-                    // Check if new user
-                    return db.collection('users').doc(user.uid).get();
-                })
-                .then((userDoc) => {
-                    if (!userDoc.exists) {
-                        // New user
-                        const username = user.displayName || user.email.split('@')[0];
-                        return db.collection('users').doc(user.uid).set({
-                            username: username,
-                            email: user.email,
-                            phone: user.phoneNumber || '',
-                            balance: 0,
-                            welcomeBonusClaimed: false,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            referralCode: username.toUpperCase() + '123',
-                            authProvider: 'google'
-                        }).then(() => {
-                            // Update state first
-                            state.user = {
-                                uid: user.uid,
-                                username: username,
-                                email: user.email,
-                                phone: user.phoneNumber || ''
-                            };
-                            state.balance = 0;
-                            state.welcomeBonusAmount = 4000;
-                            state.isLoggedIn = true;
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
 
-                            showNotification(`Welcome ${username}! Your account has been created successfully.`, 'success');
+                console.log('✅ Google Sign-In successful:', user.email);
 
-                            // Use setTimeout to ensure state is updated before showing dashboard
-                            setTimeout(() => {
-                                showPage('dashboard-page');
-                            }, 100);
-                        });
-                    } else {
-                        // Existing user
-                        const userData = userDoc.data();
+                // Check if new user
+                const userDoc = await db.collection('users').doc(user.uid).get();
 
-                        // Update state first
-                        state.user = {
-                            uid: user.uid,
-                            username: userData.username,
-                            email: userData.email,
-                            phone: userData.phone || ''
-                        };
-                        state.balance = userData.balance || 0;
-                        state.welcomeBonusAmount = userData.welcomeBonusClaimed ? 0 : 4000;
-                        state.isLoggedIn = true;
+                if (!userDoc.exists) {
+                    // New user
+                    const username = user.displayName || user.email.split('@')[0];
+                    console.log('🆕 Creating new user:', username);
 
-                        showNotification(`Welcome back, ${userData.username}!`, 'success');
+                    await db.collection('users').doc(user.uid).set({
+                        username: username,
+                        email: user.email,
+                        phone: user.phoneNumber || '',
+                        balance: 0,
+                        welcomeBonusClaimed: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        referralCode: username.toUpperCase() + '123',
+                        authProvider: 'google'
+                    });
 
-                        // Use setTimeout to ensure state is updated before showing dashboard
-                        setTimeout(() => {
-                            showPage('dashboard-page');
-                        }, 100);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Google Sign-In error:', error);
-                    let errorMessage = 'Google Sign-In failed. Please try again.';
+                    // Update state
+                    state.user = {
+                        uid: user.uid,
+                        username: username,
+                        email: user.email,
+                        phone: user.phoneNumber || ''
+                    };
+                    state.balance = 0;
+                    state.welcomeBonusAmount = 4000;
+                    state.isLoggedIn = true;
 
-                    if (error.code === 'auth/popup-closed-by-user') {
-                        errorMessage = 'Sign-in popup was closed. Please try again.';
-                    } else if (error.code === 'auth/popup-blocked') {
-                        errorMessage = 'Sign-in popup was blocked. Please allow popups and try again.';
-                    } else if (error.code === 'auth/account-exists-with-different-credential') {
-                        errorMessage = 'Account exists with different sign-in method. Please use email/password or phone.';
-                    }
+                    showNotification(`✅ Welcome ${username}! Your account has been created successfully.`, 'success');
 
-                    showNotification(errorMessage, 'error');
-                });
+                } else {
+                    // Existing user
+                    const userData = userDoc.data();
+                    console.log('🔄 Existing user logging in:', userData.username);
+
+                    // Update state
+                    state.user = {
+                        uid: user.uid,
+                        username: userData.username,
+                        email: userData.email,
+                        phone: userData.phone || ''
+                    };
+                    state.balance = userData.balance || 0;
+                    state.welcomeBonusAmount = userData.welcomeBonusClaimed ? 0 : 4000;
+                    state.isLoggedIn = true;
+
+                    showNotification(`✅ Welcome back, ${userData.username}!`, 'success');
+                }
+
+                // Load user data and show dashboard
+                await loadUserData();
+                await loadUserInvestments();
+                await loadUserDeposits();
+                await loadUserWithdrawals();
+                await loadUserReferrals();
+
+                showPage('dashboard-page');
+
+            } catch (error) {
+                console.error('❌ Google Sign-In error:', error);
+                let errorMessage = 'Google Sign-In failed. Please try again.';
+
+                if (error.code === 'auth/popup-closed-by-user') {
+                    errorMessage = 'Sign-in popup was closed. Please try again.';
+                } else if (error.code === 'auth/popup-blocked') {
+                    errorMessage = 'Sign-in popup was blocked. Please allow popups and try again.';
+                } else if (error.code === 'auth/account-exists-with-different-credential') {
+                    errorMessage = 'Account exists with different sign-in method. Please use email/password or phone.';
+                } else if (error.code === 'auth/unauthorized-domain') {
+                    errorMessage = 'Unauthorized domain. Please check your Firebase OAuth settings.';
+                } else if (error.code === 'auth/operation-not-allowed') {
+                    errorMessage = 'Google Sign-In is not enabled. Please enable it in Firebase Authentication.';
+                }
+
+                showNotification(errorMessage, 'error');
+            }
         }
 
         function showPhoneAuth() {
+            console.log('📱 Showing phone authentication...');
+
             document.getElementById('registration-form').style.display = 'none';
             document.getElementById('login-form').style.display = 'none';
             document.getElementById('phone-auth-section').style.display = 'block';
@@ -2095,13 +2109,14 @@
             // Initialize reCAPTCHA verifier
             if (!window.recaptchaVerifier) {
                 try {
+                    console.log('🔒 Initializing reCAPTCHA...');
                     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('phone-auth-section', {
                         'size': 'normal',
                         'callback': function(response) {
-                            console.log('reCAPTCHA verified');
+                            console.log('✅ reCAPTCHA verified');
                         },
                         'expired-callback': function() {
-                            console.log('reCAPTCHA expired');
+                            console.log('⏰ reCAPTCHA expired');
                             window.recaptchaVerifier = null;
                             showNotification('reCAPTCHA expired. Please refresh and try again.', 'error');
                         }
@@ -2110,9 +2125,13 @@
                     // Render the reCAPTCHA
                     window.recaptchaVerifier.render().then(function(widgetId) {
                         window.recaptchaWidgetId = widgetId;
+                        console.log('🎯 reCAPTCHA rendered with widget ID:', widgetId);
+                    }).catch(function(error) {
+                        console.error('❌ Error rendering reCAPTCHA:', error);
+                        showNotification('Error loading reCAPTCHA. Please refresh the page.', 'error');
                     });
                 } catch (error) {
-                    console.error('Error initializing reCAPTCHA:', error);
+                    console.error('❌ Error initializing reCAPTCHA:', error);
                     showNotification('Error initializing phone verification. Please refresh the page.', 'error');
                 }
             }
@@ -2128,12 +2147,14 @@
             document.querySelectorAll('.code-input').forEach(input => input.value = '');
         }
 
-        function sendVerificationCode() {
+        async function sendVerificationCode() {
             const phoneNumber = document.getElementById('phone-number').value.trim();
             const phoneNumberError = document.getElementById('phone-number-error');
 
             // Clear previous error
             if (phoneNumberError) phoneNumberError.textContent = '';
+
+            console.log('📱 Sending verification code to:', phoneNumber);
 
             if (!phoneNumber) {
                 if (phoneNumberError) phoneNumberError.textContent = 'Phone number is required';
@@ -2151,6 +2172,7 @@
 
             // Check if reCAPTCHA is ready
             if (!window.recaptchaVerifier) {
+                console.error('❌ reCAPTCHA not initialized');
                 showNotification('Please wait for reCAPTCHA to load and try again.', 'error');
                 return;
             }
@@ -2164,48 +2186,54 @@
                 sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             }
 
-            auth.signInWithPhoneNumber(phoneNumber, appVerifier)
-                .then((confirmationResult) => {
-                    window.phoneConfirmationResult = confirmationResult;
+            try {
+                console.log('📤 Sending verification code...');
+                const confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, appVerifier);
+                window.phoneConfirmationResult = confirmationResult;
 
-                    document.getElementById('verification-section').style.display = 'block';
-                    document.getElementById('phone-display').textContent = phoneNumber;
+                console.log('✅ Verification code sent successfully');
 
-                    const firstInput = document.querySelector('.code-input[data-index="0"]');
-                    if (firstInput) firstInput.focus();
+                document.getElementById('verification-section').style.display = 'block';
+                document.getElementById('phone-display').textContent = phoneNumber;
 
-                    showNotification('Verification code sent! Please check your phone.', 'success');
-                })
-                .catch((error) => {
-                    console.error('Error sending verification code:', error);
-                    let errorMessage = 'Error sending verification code. Please try again.';
+                const firstInput = document.querySelector('.code-input[data-index="0"]');
+                if (firstInput) firstInput.focus();
 
-                    if (error.code === 'auth/too-many-requests') {
-                        errorMessage = 'Too many requests. Please wait a few minutes and try again.';
-                    } else if (error.code === 'auth/invalid-phone-number') {
-                        errorMessage = 'Invalid phone number format. Please check and try again.';
-                    } else if (error.code === 'auth/quota-exceeded') {
-                        errorMessage = 'Service quota exceeded. Please try again later.';
-                    }
+                showNotification('✅ Verification code sent! Please check your phone.', 'success');
 
-                    showNotification(errorMessage, 'error');
-                })
-                .finally(() => {
-                    // Re-enable the button
-                    if (sendButton) {
-                        sendButton.disabled = false;
-                        sendButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Verification Code';
-                    }
-                });
+            } catch (error) {
+                console.error('❌ Error sending verification code:', error);
+                let errorMessage = 'Error sending verification code. Please try again.';
+
+                if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Too many requests. Please wait a few minutes and try again.';
+                } else if (error.code === 'auth/invalid-phone-number') {
+                    errorMessage = 'Invalid phone number format. Please check and try again.';
+                } else if (error.code === 'auth/quota-exceeded') {
+                    errorMessage = 'Service quota exceeded. Please try again later.';
+                } else if (error.code === 'auth/captcha-check-failed') {
+                    errorMessage = 'reCAPTCHA verification failed. Please try again.';
+                }
+
+                showNotification(errorMessage, 'error');
+            } finally {
+                // Re-enable the button
+                if (sendButton) {
+                    sendButton.disabled = false;
+                    sendButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Verification Code';
+                }
+            }
         }
 
-        function verifyCode() {
+        async function verifyCode() {
             const codeInputs = document.querySelectorAll('.code-input');
             let verificationCode = '';
 
             codeInputs.forEach(input => {
                 verificationCode += input.value;
             });
+
+            console.log('🔢 Verification code entered:', verificationCode.length + ' digits');
 
             if (verificationCode.length !== 6) {
                 showNotification('Please enter the complete 6-digit verification code.', 'error');
@@ -2214,6 +2242,7 @@
 
             // Check if confirmation result exists
             if (!window.phoneConfirmationResult) {
+                console.error('❌ No confirmation result found');
                 showNotification('Please request a verification code first.', 'error');
                 return;
             }
@@ -2225,96 +2254,103 @@
                 verifyButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
             }
 
-            window.phoneConfirmationResult.confirm(verificationCode)
-                .then((result) => {
-                    const user = result.user;
-                    console.log('Phone verification successful:', user);
+            try {
+                console.log('🔍 Verifying code...');
+                const result = await window.phoneConfirmationResult.confirm(verificationCode);
+                const user = result.user;
 
-                    return db.collection('users').doc(user.uid).get();
-                })
-                .then((userDoc) => {
-                    if (!userDoc.exists) {
-                        // New user - create username
-                        const phoneNumber = user.phoneNumber;
-                        const suggestedUsername = phoneNumber ? phoneNumber.replace('+256', 'user') : 'user' + Date.now();
+                console.log('✅ Phone verification successful:', user.phoneNumber);
 
-                        const username = prompt('Please enter a username:', suggestedUsername);
-                        if (!username || username.trim() === '') {
-                            auth.signOut();
-                            showNotification('Username is required. Please try again.', 'error');
-                            return;
-                        }
+                // Check if new user
+                const userDoc = await db.collection('users').doc(user.uid).get();
 
-                        return db.collection('users').doc(user.uid).set({
-                            username: username.trim(),
-                            email: '',
-                            phone: user.phoneNumber,
-                            balance: 0,
-                            welcomeBonusClaimed: false,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            referralCode: username.toUpperCase() + '123',
-                            authProvider: 'phone'
-                        }).then(() => {
-                            // Update state first
-                            state.user = {
-                                uid: user.uid,
-                                username: username.trim(),
-                                email: '',
-                                phone: user.phoneNumber
-                            };
-                            state.balance = 0;
-                            state.welcomeBonusAmount = 4000;
-                            state.isLoggedIn = true;
+                if (!userDoc.exists) {
+                    // New user - create username
+                    const phoneNumber = user.phoneNumber;
+                    const suggestedUsername = phoneNumber ? phoneNumber.replace('+256', 'user') : 'user' + Date.now();
 
-                            showNotification(`Welcome ${username.trim()}! Your account has been created successfully.`, 'success');
+                    console.log('🆕 New user, requesting username...');
+                    const username = prompt('Please enter a username:', suggestedUsername);
 
-                            // Use setTimeout to ensure state is updated before showing dashboard
-                            setTimeout(() => {
-                                showPage('dashboard-page');
-                            }, 100);
-                        });
-                    } else {
-                        // Existing user
-                        const userData = userDoc.data();
-
-                        // Update state first
-                        state.user = {
-                            uid: user.uid,
-                            username: userData.username,
-                            email: userData.email || '',
-                            phone: user.phoneNumber
-                        };
-                        state.balance = userData.balance || 0;
-                        state.welcomeBonusAmount = userData.welcomeBonusClaimed ? 0 : 4000;
-                        state.isLoggedIn = true;
-
-                        showNotification(`Welcome back, ${userData.username}!`, 'success');
-
-                        // Use setTimeout to ensure state is updated before showing dashboard
-                        setTimeout(() => {
-                            showPage('dashboard-page');
-                        }, 100);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error verifying code:', error);
-                    let errorMessage = 'Invalid verification code. Please try again.';
-
-                    if (error.code === 'auth/invalid-verification-code') {
-                        errorMessage = 'Invalid verification code. Please check and try again.';
-                    } else if (error.code === 'auth/code-expired') {
-                        errorMessage = 'Verification code has expired. Please request a new one.';
+                    if (!username || username.trim() === '') {
+                        await auth.signOut();
+                        showNotification('Username is required. Please try again.', 'error');
+                        return;
                     }
 
-                    showNotification(errorMessage, 'error');
-                })
-                .finally(() => {
-                    // Re-enable verify button
-                    if (verifyButton) {
-                        verifyButton.disabled = false;
-                        verifyButton.innerHTML = 'Verify Code';
-                    }
-                });
+                    console.log('💾 Creating new user in database...');
+                    await db.collection('users').doc(user.uid).set({
+                        username: username.trim(),
+                        email: '',
+                        phone: user.phoneNumber,
+                        balance: 0,
+                        welcomeBonusClaimed: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        referralCode: username.toUpperCase() + '123',
+                        authProvider: 'phone'
+                    });
+
+                    // Update state
+                    state.user = {
+                        uid: user.uid,
+                        username: username.trim(),
+                        email: '',
+                        phone: user.phoneNumber
+                    };
+                    state.balance = 0;
+                    state.welcomeBonusAmount = 4000;
+                    state.isLoggedIn = true;
+
+                    showNotification(`✅ Welcome ${username.trim()}! Your account has been created successfully.`, 'success');
+
+                } else {
+                    // Existing user
+                    const userData = userDoc.data();
+                    console.log('🔄 Existing user logging in:', userData.username);
+
+                    // Update state
+                    state.user = {
+                        uid: user.uid,
+                        username: userData.username,
+                        email: userData.email || '',
+                        phone: user.phoneNumber
+                    };
+                    state.balance = userData.balance || 0;
+                    state.welcomeBonusAmount = userData.welcomeBonusClaimed ? 0 : 4000;
+                    state.isLoggedIn = true;
+
+                    showNotification(`✅ Welcome back, ${userData.username}!`, 'success');
+                }
+
+                // Load user data and show dashboard
+                await loadUserData();
+                await loadUserInvestments();
+                await loadUserDeposits();
+                await loadUserWithdrawals();
+                await loadUserReferrals();
+
+                showPage('dashboard-page');
+
+            } catch (error) {
+                console.error('❌ Error verifying code:', error);
+                let errorMessage = 'Invalid verification code. Please try again.';
+
+                if (error.code === 'auth/invalid-verification-code') {
+                    errorMessage = 'Invalid verification code. Please check and try again.';
+                } else if (error.code === 'auth/code-expired') {
+                    errorMessage = 'Verification code has expired. Please request a new one.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Too many attempts. Please wait and try again.';
+                }
+
+                showNotification(errorMessage, 'error');
+            } finally {
+                // Re-enable verify button
+                if (verifyButton) {
+                    verifyButton.disabled = false;
+                    verifyButton.innerHTML = 'Verify Code';
+                }
+            }
         }
 
         function resendCode() {
@@ -2901,125 +2937,111 @@
             }
         }
 
-        function loadPendingDeposits() {
+        async function loadPendingDeposits() {
             const tbody = document.getElementById('pending-deposits-body');
             tbody.innerHTML = '<tr><td colspan="6">Loading pending deposits...</td></tr>';
 
-            // Check if we have local data first
-            if (state.depositHistory && state.depositHistory.length > 0) {
-                const pendingDeposits = state.depositHistory.filter(dep => dep.status === 'Pending Admin Approval');
+            try {
+                console.log('Loading pending deposits from Firebase...');
 
-                if (pendingDeposits.length === 0) {
+                // First, let's check all deposits to see what's in the collection
+                const allDepositsSnapshot = await db.collection('deposits').get();
+                console.log('Total deposits in collection:', allDepositsSnapshot.size);
+
+                allDepositsSnapshot.forEach(doc => {
+                    console.log('Deposit:', doc.id, doc.data());
+                });
+
+                // Now query for pending deposits specifically
+                const depositsSnapshot = await db.collection('deposits')
+                    .where('status', '==', 'pending')
+                    .get();
+
+                const deposits = [];
+                depositsSnapshot.forEach(doc => {
+                    console.log('Found pending deposit:', doc.id, doc.data());
+                    deposits.push({ id: doc.id, ...doc.data() });
+                });
+
+                console.log('Total pending deposits found:', deposits.length);
+
+                if (deposits.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="6">No pending deposits</td></tr>';
                     return;
                 }
 
-                tbody.innerHTML = pendingDeposits.map(deposit => `
+                tbody.innerHTML = deposits.map(deposit => `
                     <tr>
-                        <td>${deposit.userEmail || (state.user ? state.user.username : 'N/A')}</td>
+                        <td>${deposit.userEmail || 'N/A'}</td>
                         <td>UGX ${deposit.amount.toLocaleString()}</td>
                         <td>${deposit.method}</td>
                         <td>${deposit.transactionId}</td>
-                        <td>${deposit.date}</td>
+                        <td>${deposit.createdAt ? new Date(deposit.createdAt.toDate()).toLocaleDateString() : 'N/A'}</td>
                         <td>
                             <button onclick="approveDepositById('${deposit.id}')" class="btn btn-success">Approve</button>
                             <button onclick="rejectDepositById('${deposit.id}')" class="btn btn-danger">Reject</button>
                         </td>
                     </tr>
                 `).join('');
-            } else {
-                // Fallback to Firebase if local data is empty
-                db.collection('deposits').where('status', '==', 'pending').get()
-                    .then((depositsSnapshot) => {
-                        const deposits = [];
-                        depositsSnapshot.forEach(doc => {
-                            deposits.push({ id: doc.id, ...doc.data() });
-                        });
+                console.log('Pending deposits loaded successfully');
 
-                        if (deposits.length === 0) {
-                            tbody.innerHTML = '<tr><td colspan="6">No pending deposits</td></tr>';
-                            return;
-                        }
-
-                        tbody.innerHTML = deposits.map(deposit => `
-                            <tr>
-                                <td>${deposit.userEmail || 'N/A'}</td>
-                                <td>UGX ${deposit.amount.toLocaleString()}</td>
-                                <td>${deposit.method}</td>
-                                <td>${deposit.transactionId}</td>
-                                <td>${deposit.createdAt ? new Date(deposit.createdAt.toDate()).toLocaleDateString() : 'N/A'}</td>
-                                <td>
-                                    <button onclick="approveDeposit('${deposit.id}')" class="btn btn-success">Approve</button>
-                                    <button onclick="rejectDeposit('${deposit.id}')" class="btn btn-danger">Reject</button>
-                                </td>
-                            </tr>
-                        `).join('');
-                    })
-                    .catch((error) => {
-                        console.error('Error loading deposits:', error);
-                        tbody.innerHTML = '<tr><td colspan="6">Error loading deposits. Please try again.</td></tr>';
-                    });
+            } catch (error) {
+                console.error('Error loading deposits:', error);
+                tbody.innerHTML = '<tr><td colspan="6">Error loading deposits. Please try again.</td></tr>';
             }
         }
 
-        function loadPendingWithdrawals() {
+        async function loadPendingWithdrawals() {
             const tbody = document.getElementById('pending-withdrawals-body');
             tbody.innerHTML = '<tr><td colspan="6">Loading pending withdrawals...</td></tr>';
 
-            // Check if we have local data first
-            if (state.withdrawHistory && state.withdrawHistory.length > 0) {
-                const pendingWithdrawals = state.withdrawHistory.filter(wd => wd.status === 'Pending Admin Approval');
+            try {
+                console.log('Loading pending withdrawals from Firebase...');
 
-                if (pendingWithdrawals.length === 0) {
+                // First, let's check all withdrawals to see what's in the collection
+                const allWithdrawalsSnapshot = await db.collection('withdrawals').get();
+                console.log('Total withdrawals in collection:', allWithdrawalsSnapshot.size);
+
+                allWithdrawalsSnapshot.forEach(doc => {
+                    console.log('Withdrawal:', doc.id, doc.data());
+                });
+
+                // Now query for pending withdrawals specifically
+                const withdrawalsSnapshot = await db.collection('withdrawals')
+                    .where('status', '==', 'pending')
+                    .get();
+
+                const withdrawals = [];
+                withdrawalsSnapshot.forEach(doc => {
+                    console.log('Found pending withdrawal:', doc.id, doc.data());
+                    withdrawals.push({ id: doc.id, ...doc.data() });
+                });
+
+                console.log('Total pending withdrawals found:', withdrawals.length);
+
+                if (withdrawals.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="6">No pending withdrawals</td></tr>';
                     return;
                 }
 
-                tbody.innerHTML = pendingWithdrawals.map(withdrawal => `
+                tbody.innerHTML = withdrawals.map(withdrawal => `
                     <tr>
-                        <td>${withdrawal.userEmail || (state.user ? state.user.username : 'N/A')}</td>
+                        <td>${withdrawal.userEmail || 'N/A'}</td>
                         <td>UGX ${withdrawal.amount.toLocaleString()}</td>
                         <td>${withdrawal.method}</td>
                         <td>${withdrawal.mobileNumber || 'N/A'}</td>
-                        <td>${withdrawal.date}</td>
+                        <td>${withdrawal.createdAt ? new Date(withdrawal.createdAt.toDate()).toLocaleDateString() : 'N/A'}</td>
                         <td>
                             <button onclick="approveWithdrawalById('${withdrawal.id}')" class="btn btn-success">Approve</button>
                             <button onclick="rejectWithdrawalById('${withdrawal.id}')" class="btn btn-danger">Reject</button>
                         </td>
                     </tr>
                 `).join('');
-            } else {
-                // Fallback to Firebase if local data is empty
-                db.collection('withdrawals').where('status', '==', 'pending').get()
-                    .then((withdrawalsSnapshot) => {
-                        const withdrawals = [];
-                        withdrawalsSnapshot.forEach(doc => {
-                            withdrawals.push({ id: doc.id, ...doc.data() });
-                        });
+                console.log('Pending withdrawals loaded successfully');
 
-                        if (withdrawals.length === 0) {
-                            tbody.innerHTML = '<tr><td colspan="6">No pending withdrawals</td></tr>';
-                            return;
-                        }
-
-                        tbody.innerHTML = withdrawals.map(withdrawal => `
-                            <tr>
-                                <td>${withdrawal.userEmail || 'N/A'}</td>
-                                <td>UGX ${withdrawal.amount.toLocaleString()}</td>
-                                <td>${withdrawal.method}</td>
-                                <td>${withdrawal.mobileNumber || 'N/A'}</td>
-                                <td>${withdrawal.createdAt ? new Date(withdrawal.createdAt.toDate()).toLocaleDateString() : 'N/A'}</td>
-                                <td>
-                                    <button onclick="approveWithdrawal('${withdrawal.id}')" class="btn btn-success">Approve</button>
-                                    <button onclick="rejectWithdrawal('${withdrawal.id}')" class="btn btn-danger">Reject</button>
-                                </td>
-                            </tr>
-                        `).join('');
-                    })
-                    .catch((error) => {
-                        console.error('Error loading withdrawals:', error);
-                        tbody.innerHTML = '<tr><td colspan="6">Error loading withdrawals. Please try again.</td></tr>';
-                    });
+            } catch (error) {
+                console.error('Error loading withdrawals:', error);
+                tbody.innerHTML = '<tr><td colspan="6">Error loading withdrawals. Please try again.</td></tr>';
             }
         }
 
@@ -3072,7 +3094,7 @@
                 updateDashboard();
                 renderDepositHistory();
                 loadPendingDeposits(); // Refresh the admin view
-                showNotification('Deposit approved successfully!', 'success');
+                showNotification('✅ Deposit approved and user balance updated automatically!', 'success');
             }
         }
 
@@ -3088,84 +3110,100 @@
 
         async function approveDepositById(depositId) {
             try {
-                // Find the deposit in local state
-                const deposit = state.depositHistory.find(dep => dep.id === depositId);
-                if (!deposit) {
+                console.log('Approving deposit:', depositId);
+
+                // Update in Firebase directly using the document ID
+                const depositRef = db.collection('deposits').doc(depositId);
+                const depositDoc = await depositRef.get();
+
+                if (!depositDoc.exists) {
+                    console.error('Deposit document not found:', depositId);
                     showNotification('Deposit not found!', 'error');
                     return;
                 }
 
-                // Update in Firebase
-                const depositQuery = await db.collection('deposits')
-                    .where('userEmail', '==', deposit.userEmail)
-                    .where('transactionId', '==', deposit.transactionId)
-                    .where('status', '==', 'pending')
-                    .get();
+                const deposit = depositDoc.data();
+                console.log('Deposit data:', deposit);
 
-                if (!depositQuery.empty) {
-                    const depositDoc = depositQuery.docs[0];
-                    await depositDoc.ref.update({
-                        status: 'approved',
-                        approvedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                // Update deposit status first
+                await depositRef.update({
+                    status: 'approved',
+                    approvedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log('Deposit status updated to approved');
 
-                    // Update user's balance in Firebase
-                    await db.collection('users').where('email', '==', deposit.userEmail).get()
-                        .then(async (userSnapshot) => {
-                            if (!userSnapshot.empty) {
-                                const userDoc = userSnapshot.docs[0];
-                                await userDoc.ref.update({
-                                    balance: firebase.firestore.FieldValue.increment(deposit.amount)
-                                });
-                            }
-                        });
+                // Update user's balance in Firebase
+                if (deposit.userEmail) {
+                    try {
+                        const userQuery = await db.collection('users').where('email', '==', deposit.userEmail).get();
+                        if (!userQuery.empty) {
+                            const userDoc = userQuery.docs[0];
+                            await userDoc.ref.update({
+                                balance: firebase.firestore.FieldValue.increment(deposit.amount)
+                            });
+                            console.log('User balance updated successfully');
+                        } else {
+                            console.error('User not found for email:', deposit.userEmail);
+                            showNotification('User not found. Cannot update balance.', 'error');
+                            return;
+                        }
+                    } catch (balanceError) {
+                        console.error('Error updating user balance:', balanceError);
+                        showNotification(`Error updating user balance: ${balanceError.message}`, 'error');
+                        return;
+                    }
                 }
 
-                // Update local state
-                deposit.status = 'Approved';
-                renderDepositHistory();
+                // Update local state if this deposit belongs to current user
+                const localDepositIndex = state.depositHistory.findIndex(dep => dep.id === depositId);
+                if (localDepositIndex !== -1) {
+                    state.depositHistory[localDepositIndex].status = 'Approved';
+                    renderDepositHistory();
+                }
+
                 loadPendingDeposits(); // Refresh the admin view
                 showNotification('Deposit approved successfully!', 'success');
 
             } catch (error) {
                 console.error('Error approving deposit:', error);
-                showNotification('Error approving deposit. Please try again.', 'error');
+                showNotification(`Error approving deposit: ${error.message}`, 'error');
             }
         }
 
         async function rejectDepositById(depositId) {
             try {
-                // Find the deposit in local state
-                const deposit = state.depositHistory.find(dep => dep.id === depositId);
-                if (!deposit) {
+                console.log('Rejecting deposit:', depositId);
+
+                // Update in Firebase directly using the document ID
+                const depositRef = db.collection('deposits').doc(depositId);
+                const depositDoc = await depositRef.get();
+
+                if (!depositDoc.exists) {
+                    console.error('Deposit document not found:', depositId);
                     showNotification('Deposit not found!', 'error');
                     return;
                 }
 
-                // Update in Firebase
-                const depositQuery = await db.collection('deposits')
-                    .where('userEmail', '==', deposit.userEmail)
-                    .where('transactionId', '==', deposit.transactionId)
-                    .where('status', '==', 'pending')
-                    .get();
+                // Update deposit status
+                await depositRef.update({
+                    status: 'rejected',
+                    rejectedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log('Deposit status updated to rejected');
 
-                if (!depositQuery.empty) {
-                    const depositDoc = depositQuery.docs[0];
-                    await depositDoc.ref.update({
-                        status: 'rejected',
-                        rejectedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                // Update local state if this deposit belongs to current user
+                const localDepositIndex = state.depositHistory.findIndex(dep => dep.id === depositId);
+                if (localDepositIndex !== -1) {
+                    state.depositHistory[localDepositIndex].status = 'Rejected';
+                    renderDepositHistory();
                 }
 
-                // Update local state
-                deposit.status = 'Rejected';
-                renderDepositHistory();
                 loadPendingDeposits(); // Refresh the admin view
                 showNotification('Deposit rejected!', 'success');
 
             } catch (error) {
                 console.error('Error rejecting deposit:', error);
-                showNotification('Error rejecting deposit. Please try again.', 'error');
+                showNotification(`Error rejecting deposit: ${error.message}`, 'error');
             }
         }
 
@@ -3189,94 +3227,115 @@
                 updateDashboard();
                 renderWithdrawalHistory();
                 loadPendingWithdrawals(); // Refresh the admin view
-                showNotification('Withdrawal rejected! Funds returned to user.', 'success');
+                showNotification('✅ Withdrawal rejected and funds returned to user automatically!', 'success');
             }
         }
 
         async function approveWithdrawalById(withdrawalId) {
             try {
-                // Find the withdrawal in local state
-                const withdrawal = state.withdrawHistory.find(wd => wd.id === withdrawalId);
-                if (!withdrawal) {
+                console.log('Approving withdrawal:', withdrawalId);
+
+                // Update in Firebase directly using the document ID
+                const withdrawalRef = db.collection('withdrawals').doc(withdrawalId);
+                const withdrawalDoc = await withdrawalRef.get();
+
+                if (!withdrawalDoc.exists) {
+                    console.error('Withdrawal document not found:', withdrawalId);
                     showNotification('Withdrawal not found!', 'error');
                     return;
                 }
 
-                // Update in Firebase
-                const withdrawalQuery = await db.collection('withdrawals')
-                    .where('userEmail', '==', withdrawal.userEmail)
-                    .where('mobileNumber', '==', withdrawal.mobileNumber)
-                    .where('status', '==', 'pending')
-                    .get();
+                const withdrawal = withdrawalDoc.data();
+                console.log('Withdrawal data:', withdrawal);
 
-                if (!withdrawalQuery.empty) {
-                    const withdrawalDoc = withdrawalQuery.docs[0];
-                    await withdrawalDoc.ref.update({
-                        status: 'approved',
-                        approvedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                // Update withdrawal status
+                await withdrawalRef.update({
+                    status: 'approved',
+                    approvedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log('Withdrawal status updated to approved');
+
+                // Note: For withdrawal approval, we don't need to update user balance
+                // as the money was already deducted when the withdrawal was requested
+
+                // Update local state if this withdrawal belongs to current user
+                const localWithdrawalIndex = state.withdrawHistory.findIndex(wd => wd.id === withdrawalId);
+                if (localWithdrawalIndex !== -1) {
+                    state.withdrawHistory[localWithdrawalIndex].status = 'Approved';
+                    renderWithdrawalHistory();
                 }
 
-                // Update local state
-                withdrawal.status = 'Approved';
-                updateDashboard();
-                renderWithdrawalHistory();
                 loadPendingWithdrawals(); // Refresh the admin view
                 showNotification('Withdrawal approved successfully!', 'success');
 
             } catch (error) {
                 console.error('Error approving withdrawal:', error);
-                showNotification('Error approving withdrawal. Please try again.', 'error');
+                showNotification(`Error approving withdrawal: ${error.message}`, 'error');
             }
         }
 
         async function rejectWithdrawalById(withdrawalId) {
             try {
-                // Find the withdrawal in local state
-                const withdrawal = state.withdrawHistory.find(wd => wd.id === withdrawalId);
-                if (!withdrawal) {
+                console.log('Rejecting withdrawal:', withdrawalId);
+
+                // Update in Firebase directly using the document ID
+                const withdrawalRef = db.collection('withdrawals').doc(withdrawalId);
+                const withdrawalDoc = await withdrawalRef.get();
+
+                if (!withdrawalDoc.exists) {
+                    console.error('Withdrawal document not found:', withdrawalId);
                     showNotification('Withdrawal not found!', 'error');
                     return;
                 }
 
-                // Update in Firebase
-                const withdrawalQuery = await db.collection('withdrawals')
-                    .where('userEmail', '==', withdrawal.userEmail)
-                    .where('mobileNumber', '==', withdrawal.mobileNumber)
-                    .where('status', '==', 'pending')
-                    .get();
+                const withdrawal = withdrawalDoc.data();
+                console.log('Withdrawal data:', withdrawal);
 
-                if (!withdrawalQuery.empty) {
-                    const withdrawalDoc = withdrawalQuery.docs[0];
-                    await withdrawalDoc.ref.update({
-                        status: 'rejected',
-                        rejectedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                // Update withdrawal status first
+                await withdrawalRef.update({
+                    status: 'rejected',
+                    rejectedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log('Withdrawal status updated to rejected');
 
-                    // Return the money to user's balance in Firebase
-                    await db.collection('users').where('email', '==', withdrawal.userEmail).get()
-                        .then(async (userSnapshot) => {
-                            if (!userSnapshot.empty) {
-                                const userDoc = userSnapshot.docs[0];
-                                await userDoc.ref.update({
-                                    balance: firebase.firestore.FieldValue.increment(withdrawal.amount)
-                                });
-                            }
-                        });
+                // Return the money to user's balance in Firebase
+                if (withdrawal.userEmail) {
+                    try {
+                        const userQuery = await db.collection('users').where('email', '==', withdrawal.userEmail).get();
+                        if (!userQuery.empty) {
+                            const userDoc = userQuery.docs[0];
+                            await userDoc.ref.update({
+                                balance: firebase.firestore.FieldValue.increment(withdrawal.amount)
+                            });
+                            console.log('User balance updated successfully (money returned)');
+                        } else {
+                            console.error('User not found for email:', withdrawal.userEmail);
+                            showNotification('User not found. Cannot return funds.', 'error');
+                            return;
+                        }
+                    } catch (balanceError) {
+                        console.error('Error updating user balance:', balanceError);
+                        showNotification(`Error returning funds: ${balanceError.message}`, 'error');
+                        return;
+                    }
                 }
 
-                // Update local state
-                withdrawal.status = 'Rejected';
-                // Return the money back to the user's balance
-                state.balance += withdrawal.amount;
-                updateDashboard();
-                renderWithdrawalHistory();
+                // Update local state if this withdrawal belongs to current user
+                const localWithdrawalIndex = state.withdrawHistory.findIndex(wd => wd.id === withdrawalId);
+                if (localWithdrawalIndex !== -1) {
+                    state.withdrawHistory[localWithdrawalIndex].status = 'Rejected';
+                    // Return the money back to the user's balance
+                    state.balance += state.withdrawHistory[localWithdrawalIndex].amount;
+                    updateDashboard();
+                    renderWithdrawalHistory();
+                }
+
                 loadPendingWithdrawals(); // Refresh the admin view
                 showNotification('Withdrawal rejected! Funds returned to user.', 'success');
 
             } catch (error) {
                 console.error('Error rejecting withdrawal:', error);
-                showNotification('Error rejecting withdrawal. Please try again.', 'error');
+                showNotification(`Error rejecting withdrawal: ${error.message}`, 'error');
             }
         }
 
@@ -3491,11 +3550,19 @@
             if (adminNavItem && state.user) {
                 adminNavItem.style.display = (state.user.email === 'kaigwaakram123@gmail.com') ? 'block' : 'none';
             }
+
+            // Also hide the admin tab content for non-admin users
+            const adminTab = document.getElementById('admin-tab');
+            if (adminTab && state.user) {
+                adminTab.style.display = (state.user.email === 'kaigwaakram123@gmail.com') ? 'block' : 'none';
+            }
         }
 
         // Form Handlers
-        function handleRegistration(event) {
+        async function handleRegistration(event) {
             event.preventDefault();
+
+            console.log('📝 Starting registration process...');
 
             const username = document.getElementById('reg-username').value.trim();
             const email = document.getElementById('reg-email').value.trim();
@@ -3568,69 +3635,72 @@
                 submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
             }
 
-            auth.createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
+            try {
+                console.log('🔐 Creating user account...');
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
 
-                    return user.updateProfile({
-                        displayName: username
-                    });
-                })
-                .then(() => {
-                    return db.collection('users').doc(auth.currentUser.uid).set({
-                        username: username,
-                        email: email,
-                        phone: phone,
-                        balance: 0,
-                        welcomeBonusClaimed: false,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        referralCode: username.toUpperCase() + '123'
-                    });
-                })
-                .then(() => {
-                    state.user = {
-                        uid: auth.currentUser.uid,
-                        username: username,
-                        email: email,
-                        phone: phone
-                    };
-
-                    state.balance = 0;
-                    state.welcomeBonusAmount = 4000;
-                    state.isLoggedIn = true;
-
-                    const welcomeBonusSection = document.getElementById('welcome-bonus-section');
-                    if (welcomeBonusSection) {
-                        welcomeBonusSection.style.display = 'block';
-                    }
-
-                    showNotification(`Registration successful for ${username}! Please claim your welcome bonus.`, 'success');
-                    event.target.reset();
-                })
-                .catch((error) => {
-                    console.error('Registration error:', error);
-                    let errorMessage = 'Registration failed. Please try again.';
-
-                    if (error.code === 'auth/email-already-in-use') {
-                        errorMessage = 'An account with this email already exists. Please use a different email or try logging in.';
-                        document.getElementById('reg-email-error').textContent = errorMessage;
-                    } else if (error.code === 'auth/weak-password') {
-                        errorMessage = 'Password is too weak. Please choose a stronger password.';
-                        document.getElementById('reg-password-error').textContent = errorMessage;
-                    } else if (error.code === 'auth/invalid-email') {
-                        errorMessage = 'Invalid email address format.';
-                        document.getElementById('reg-email-error').textContent = errorMessage;
-                    }
-
-                    showNotification(errorMessage, 'error');
-                })
-                .finally(() => {
-                    // Re-enable submit button
-                    if (submitButton) {
-                        submitButton.disabled = false;
-                        submitButton.innerHTML = 'Sign Up';
-                    }
+                console.log('👤 Updating user profile...');
+                await user.updateProfile({
+                    displayName: username
                 });
+
+                console.log('💾 Saving user data to database...');
+                await db.collection('users').doc(user.uid).set({
+                    username: username,
+                    email: email,
+                    phone: phone,
+                    balance: 0,
+                    welcomeBonusClaimed: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    referralCode: username.toUpperCase() + '123',
+                    authProvider: 'email'
+                });
+
+                // Update state
+                state.user = {
+                    uid: user.uid,
+                    username: username,
+                    email: email,
+                    phone: phone
+                };
+                state.balance = 0;
+                state.welcomeBonusAmount = 4000;
+                state.isLoggedIn = true;
+
+                const welcomeBonusSection = document.getElementById('welcome-bonus-section');
+                if (welcomeBonusSection) {
+                    welcomeBonusSection.style.display = 'block';
+                }
+
+                showNotification(`✅ Registration successful for ${username}! Please claim your welcome bonus.`, 'success');
+                event.target.reset();
+
+            } catch (error) {
+                console.error('❌ Registration error:', error);
+                let errorMessage = 'Registration failed. Please try again.';
+
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'An account with this email already exists. Please use a different email or try logging in.';
+                    document.getElementById('reg-email-error').textContent = errorMessage;
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'Password is too weak. Please choose a stronger password.';
+                    document.getElementById('reg-password-error').textContent = errorMessage;
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Invalid email address format.';
+                    document.getElementById('reg-email-error').textContent = errorMessage;
+                } else if (error.code === 'auth/operation-not-allowed') {
+                    errorMessage = 'Email/password registration is not enabled. Please check Firebase Authentication settings.';
+                }
+
+                showNotification(errorMessage, 'error');
+            } finally {
+                // Re-enable submit button
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Sign Up';
+                }
+            }
         }
 
         function handleLogin(event) {
@@ -3975,6 +4045,100 @@
                     console.error('Error listening to withdrawals:', error);
                 });
         }
+
+        // Test function for debugging (can be called from browser console)
+        window.testAdminFunctions = async function() {
+            console.log('Testing admin functions...');
+
+            try {
+                // Test loading pending deposits
+                console.log('Testing loadPendingDeposits...');
+                await loadPendingDeposits();
+
+                // Test loading pending withdrawals
+                console.log('Testing loadPendingWithdrawals...');
+                await loadPendingWithdrawals();
+
+                console.log('Admin functions test completed');
+            } catch (error) {
+                console.error('Error testing admin functions:', error);
+            }
+        };
+
+        // Test Firebase permissions
+        window.testFirebasePermissions = async function() {
+            console.log('🔧 Testing Firebase permissions...');
+            console.log('Current user:', auth.currentUser?.email);
+
+            try {
+                // Test if we can read from deposits collection
+                console.log('📖 Testing deposits collection read access...');
+                const testDeposits = await db.collection('deposits').limit(1).get();
+                console.log('Deposits read access:', testDeposits.size > 0 ? '✅ SUCCESS' : '❌ NO DATA');
+
+                // Test if we can read from withdrawals collection
+                console.log('📖 Testing withdrawals collection read access...');
+                const testWithdrawals = await db.collection('withdrawals').limit(1).get();
+                console.log('Withdrawals read access:', testWithdrawals.size > 0 ? '✅ SUCCESS' : '❌ NO DATA');
+
+                // Test if we can read from users collection
+                console.log('📖 Testing users collection read access...');
+                const testUsers = await db.collection('users').limit(1).get();
+                console.log('Users read access:', testUsers.size > 0 ? '✅ SUCCESS' : '❌ NO DATA');
+
+                // Test if we can write to deposits collection
+                console.log('✏️ Testing deposits collection write access...');
+                try {
+                    const testDoc = await db.collection('deposits').add({
+                        test: true,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    console.log('✅ Deposits write access: SUCCESS');
+
+                    // Clean up test document
+                    await testDoc.delete();
+                    console.log('🗑️ Test document cleaned up');
+                } catch (writeError) {
+                    console.error('❌ Deposits write access failed:', writeError.message);
+                    console.error('Error code:', writeError.code);
+                }
+
+                // Test user balance update specifically
+                console.log('💰 Testing user balance update...');
+                try {
+                    const currentUser = auth.currentUser;
+                    if (currentUser) {
+                        await db.collection('users').doc(currentUser.uid).update({
+                            balance: firebase.firestore.FieldValue.increment(0) // Test update
+                        });
+                        console.log('✅ User balance update access: SUCCESS');
+                    } else {
+                        console.log('❌ No authenticated user for balance test');
+                    }
+                } catch (balanceError) {
+                    console.error('❌ User balance update failed:', balanceError.message);
+                    console.error('Error code:', balanceError.code);
+                }
+
+                console.log('🔧 Firebase permissions test completed');
+            } catch (error) {
+                console.error('❌ Error testing Firebase permissions:', error);
+            }
+        };
+
+        // Force refresh admin data
+        window.forceRefreshAdminData = async function() {
+            console.log('🔄 Force refreshing admin data...');
+            try {
+                await loadPendingDeposits();
+                await loadPendingWithdrawals();
+                await loadAllUsers();
+                console.log('✅ Admin data refreshed successfully');
+            } catch (error) {
+                console.error('❌ Error refreshing admin data:', error);
+            }
+        };
+
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', () => {
