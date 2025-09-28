@@ -9,7 +9,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <meta name="google-signin-client_id" content="147819078141-4t9v0v0v0v0v0v0v0v0v0v0v0v0v0v0.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="147819078141-4t9v0v0v0v0v0v0v0v0v0v0v0v0v0v.apps.googleusercontent.com">
     <meta name="google-signin-scope" content="profile email">
     
     <style>
@@ -1033,6 +1033,62 @@
             margin: 40px 0;
         }
 
+        /* Status styles */
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .status.active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status.pending-admin-approval {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.approved {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status.rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status.completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        /* Notification styles */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .hero-section {
@@ -1163,7 +1219,7 @@
         <section id="welcome-page" class="active-page">
             <header class="main-header">
                 <div class="logo">
-                    <img src="https://www.brandbucket.com/sites/default/files/logo_uploads/328122/large_dailyearnings_0.png"
+                    <img src="https://www.brandbucket.com/sites/default/files/logo_uploads/328122/large_dailyearners_0.png"
                          alt="DailyEarners Logo"
                          onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiMwMDdiZmYiLz4KPHRleHQgeD0iMjUiIHk9IjMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxMiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCI+REU8L3RleHQ+Cjwvc3ZnPg=='; this.style.display='block';">
                     <h1>DailyEarners</h1>
@@ -1450,7 +1506,7 @@
             <header class="dashboard-header">
                 <div class="header-left">
                     <div class="logo">
-                        <img src="https://www.brandbucket.com/sites/default/files/logo_uploads/328122/large_dailyearnings_0.png"
+                        <img src="https://www.brandbucket.com/sites/default/files/logo_uploads/328122/large_dailyearners_0.png"
                              alt="DailyEarners Logo"
                              onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMwMDAwMDAwIiBmb250LXNpemU9IjI0IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIj5NV04gPC90ZXh0Pgo8L3N2Zz4='; this.style.display='block';">
                         <h3>DailyEarners</h3>
@@ -1585,7 +1641,7 @@
                             </div>
 
                             <div class="deposit-method">
-                                <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/mtn-mobile-logo-icon.svg" alt="MTN Mobile Money Logo" class="payment-logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMTUiIGZpbGw9IiNmZmMxMDciLz4KPHRleHQgeD0iNTAiIHk9IjU4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDAwMDAwIiBmb250LXNpemU9IjI0IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIj5NV04gPC90ZXh0Pgo8L3N2Zz4='">
+                                <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/mtn-mobile-logo-icon.svg" alt="MTN Mobile Money Logo" class="payment-logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMTUiIGZpbGw9IiNmZmMxMDciLz4KPHRleHQgeD0iNTAiIHk9IjU4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDAwMDAwMCIgZm9udC1zaXplPSIyNCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCI+TVROIDwvdGV4dD4KPC9zdmc+'">
                                 <h3>MTN Mobile Money</h3>
                                 <p>Send money to: <strong>0746160623 (Kisakye Reagan)</strong></p>
                                 <form class="deposit-form" data-method="MTN">
@@ -1857,9 +1913,9 @@
         // UI Functions
         function showPage(pageId) {
             console.log('showPage called with:', pageId);
-            
+
             // Check authentication for protected pages
-            if (pageId === 'dashboard-page' && !state.isLoggedIn) {
+            if (pageId === 'dashboard-page' && !state.isLoggedIn && !auth.currentUser) {
                 alert('Please login to access the dashboard.');
                 showPage('login-page');
                 return;
@@ -1974,6 +2030,7 @@
                             referralCode: username.toUpperCase() + '123',
                             authProvider: 'google'
                         }).then(() => {
+                            // Update state first
                             state.user = {
                                 uid: user.uid,
                                 username: username,
@@ -1985,11 +2042,17 @@
                             state.isLoggedIn = true;
 
                             showNotification(`Welcome ${username}! Your account has been created successfully.`, 'success');
-                            showPage('dashboard-page');
+
+                            // Use setTimeout to ensure state is updated before showing dashboard
+                            setTimeout(() => {
+                                showPage('dashboard-page');
+                            }, 100);
                         });
                     } else {
                         // Existing user
                         const userData = userDoc.data();
+
+                        // Update state first
                         state.user = {
                             uid: user.uid,
                             username: userData.username,
@@ -2001,7 +2064,11 @@
                         state.isLoggedIn = true;
 
                         showNotification(`Welcome back, ${userData.username}!`, 'success');
-                        showPage('dashboard-page');
+
+                        // Use setTimeout to ensure state is updated before showing dashboard
+                        setTimeout(() => {
+                            showPage('dashboard-page');
+                        }, 100);
                     }
                 })
                 .catch((error) => {
@@ -2188,6 +2255,7 @@
                             referralCode: username.toUpperCase() + '123',
                             authProvider: 'phone'
                         }).then(() => {
+                            // Update state first
                             state.user = {
                                 uid: user.uid,
                                 username: username.trim(),
@@ -2199,11 +2267,17 @@
                             state.isLoggedIn = true;
 
                             showNotification(`Welcome ${username.trim()}! Your account has been created successfully.`, 'success');
-                            showPage('dashboard-page');
+
+                            // Use setTimeout to ensure state is updated before showing dashboard
+                            setTimeout(() => {
+                                showPage('dashboard-page');
+                            }, 100);
                         });
                     } else {
                         // Existing user
                         const userData = userDoc.data();
+
+                        // Update state first
                         state.user = {
                             uid: user.uid,
                             username: userData.username,
@@ -2215,7 +2289,11 @@
                         state.isLoggedIn = true;
 
                         showNotification(`Welcome back, ${userData.username}!`, 'success');
-                        showPage('dashboard-page');
+
+                        // Use setTimeout to ensure state is updated before showing dashboard
+                        setTimeout(() => {
+                            showPage('dashboard-page');
+                        }, 100);
                     }
                 })
                 .catch((error) => {
@@ -2316,7 +2394,7 @@
             confirmBtn.onclick = () => confirmInvestment(packageName, minAmount, maxAmount, earningRate);
         }
 
-        function confirmInvestment(packageName, minAmount, maxAmount, earningRate) {
+        async function confirmInvestment(packageName, minAmount, maxAmount, earningRate) {
             const amountInput = document.getElementById('invest-amount-input');
             const amount = parseInt(amountInput.value);
             const errorElement = document.getElementById('invest-amount-error');
@@ -2360,103 +2438,141 @@
                 confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             }
 
-            // Create investment
-            const startDate = new Date();
-            const endDate = new Date();
-            endDate.setDate(startDate.getDate() + 21);
+            try {
+                // Create investment
+                const startDate = new Date();
+                const endDate = new Date();
+                endDate.setDate(startDate.getDate() + 21);
 
-            const newInvestment = {
-                id: Date.now().toString(),
-                planName: packageName,
-                investedAmount: amount,
-                dailyEarningRate: earningRate,
-                startDate: startDate,
-                endDate: endDate,
-                status: 'Active'
-            };
+                const newInvestment = {
+                    id: Date.now().toString(),
+                    planName: packageName,
+                    investedAmount: amount,
+                    dailyEarningRate: earningRate,
+                    startDate: startDate,
+                    endDate: endDate,
+                    status: 'Active',
+                    userId: state.user.uid,
+                    userEmail: state.user.email,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
 
-            // Update state
-            state.investments.push(newInvestment);
-            state.balance -= amount;
+                // Save to Firebase first
+                const investmentRef = await db.collection('investments').add(newInvestment);
 
-            // Close modal and show success
-            modal.style.display = 'none';
+                // Update user's balance in Firebase
+                await db.collection('users').doc(state.user.uid).update({
+                    balance: firebase.firestore.FieldValue.increment(-amount)
+                });
 
-            showNotification(`Successfully invested UGX ${amount.toLocaleString()} in ${packageName}!`, 'success');
-            showDashboardTab('my-investments-tab');
+                // Update local state
+                state.investments.push({ id: investmentRef.id, ...newInvestment });
+                state.balance -= amount;
 
-            // Re-enable button
-            if (confirmBtn) {
-                confirmBtn.disabled = false;
-                confirmBtn.innerHTML = 'Confirm Investment';
+                // Update dashboard
+                updateDashboard();
+
+                // Close modal and show success
+                modal.style.display = 'none';
+
+                showNotification(`Successfully invested UGX ${amount.toLocaleString()} in ${packageName}!`, 'success');
+                showDashboardTab('my-investments-tab');
+
+            } catch (error) {
+                console.error('Error processing investment:', error);
+                showNotification('Error processing investment. Please try again.', 'error');
+            } finally {
+                // Re-enable button
+                if (confirmBtn) {
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerHTML = 'Confirm Investment';
+                }
             }
         }
 
         function renderInvestments() {
             const tbody = document.getElementById('investments-table-body');
             if (!tbody) return;
-            
+
             tbody.innerHTML = '';
-            
+
             if (state.investments.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7">No active investments yet.</td></tr>';
                 return;
             }
-            
+
             state.investments.forEach(inv => {
                 const row = tbody.insertRow();
                 row.innerHTML = `
                     <td>${inv.planName}</td>
                     <td>UGX ${inv.investedAmount.toLocaleString()}</td>
                     <td>${(inv.dailyEarningRate * 100).toFixed(0)}%</td>
-                    <td>${inv.startDate.toLocaleDateString()}</td>
-                    <td>${inv.endDate.toLocaleDateString()}</td>
+                    <td>${inv.startDate ? new Date(inv.startDate).toLocaleDateString() : 'N/A'}</td>
+                    <td>${inv.endDate ? new Date(inv.endDate).toLocaleDateString() : 'N/A'}</td>
                     <td id="timer-${inv.id}">Calculating...</td>
-                    <td><span class="status ${inv.status.toLowerCase()}">${inv.status}</span></td>
+                    <td><span class="status ${inv.status ? inv.status.toLowerCase() : 'active'}">${inv.status || 'Active'}</span></td>
                 `;
-                
-                if (inv.status === 'Active') {
+
+                if ((inv.status === 'Active' || !inv.status)) {
                     startInvestmentTimer(inv);
                 }
             });
         }
 
-        function startInvestmentTimer(investment) {
-            const updateTimer = () => {
+        async function startInvestmentTimer(investment) {
+            const updateTimer = async () => {
                 const now = new Date().getTime();
-                const endTime = investment.endDate.getTime();
+                const endTime = new Date(investment.endDate).getTime();
                 const distance = endTime - now;
                 const timerElement = document.getElementById(`timer-${investment.id}`);
-                
+
                 if (!timerElement) return;
-                
+
                 if (distance < 0) {
                     clearInterval(timer.interval);
                     timerElement.textContent = 'Completed!';
                     investment.status = 'Completed';
-                    
-                    const totalProfit = investment.investedAmount * (investment.dailyEarningRate * 21);
-                    state.balance += totalProfit;
-                    updateDashboard();
-                    
-                    showNotification(`Investment in ${investment.planName} completed! Total profit: UGX ${totalProfit.toLocaleString()}`, 'success');
+
+                    try {
+                        // Calculate profit and update Firebase
+                        const totalProfit = investment.investedAmount * (investment.dailyEarningRate * 21);
+
+                        // Update user's balance in Firebase
+                        await db.collection('users').doc(state.user.uid).update({
+                            balance: firebase.firestore.FieldValue.increment(totalProfit)
+                        });
+
+                        // Update investment status in Firebase
+                        await db.collection('investments').doc(investment.id).update({
+                            status: 'Completed'
+                        });
+
+                        // Update local state
+                        state.balance += totalProfit;
+                        updateDashboard();
+
+                        showNotification(`Investment in ${investment.planName} completed! Total profit: UGX ${totalProfit.toLocaleString()}`, 'success');
+                    } catch (error) {
+                        console.error('Error completing investment:', error);
+                        showNotification('Error processing investment completion. Please contact support.', 'error');
+                    }
                     return;
                 }
-                
+
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
+
                 timerElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
             };
-            
+
             const timer = { interval: setInterval(updateTimer, 1000) };
             updateTimer();
         }
 
         // Deposit Functions
-        function handleDepositSubmit(event) {
+        async function handleDepositSubmit(event) {
             event.preventDefault();
             const form = event.target;
             const method = form.dataset.method;
@@ -2506,40 +2622,58 @@
                 submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             }
 
-            const newDeposit = {
-                id: Date.now().toString(),
-                date: new Date().toLocaleDateString(),
-                amount: amount,
-                method: method,
-                transactionId: transactionId,
-                status: 'Pending Admin Approval'
-            };
+            try {
+                const newDeposit = {
+                    amount: amount,
+                    method: method,
+                    transactionId: transactionId,
+                    status: 'pending',
+                    userEmail: state.user ? state.user.email : '',
+                    userId: state.user ? state.user.uid : '',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
 
-            state.depositHistory.push(newDeposit);
-            renderDepositHistory();
+                // Save to Firebase
+                await db.collection('deposits').add(newDeposit);
 
-            showNotification(`Deposit of UGX ${amount.toLocaleString()} via ${method} is pending admin approval.`, 'success');
-            form.reset();
+                // Update local state
+                newDeposit.id = Date.now().toString();
+                newDeposit.date = new Date().toLocaleDateString();
+                state.depositHistory.push(newDeposit);
 
-            // Re-enable button
-            if (submitButton) {
-                submitButton.disabled = false;
-                submitButton.innerHTML = 'Confirm Deposit';
+                // Update deposit history immediately
+                renderDepositHistory();
+
+                showNotification(`Deposit of UGX ${amount.toLocaleString()} via ${method} is pending admin approval.`, 'success');
+                form.reset();
+
+            } catch (error) {
+                console.error('Error submitting deposit:', error);
+                showNotification('Error submitting deposit. Please try again.', 'error');
+            } finally {
+                // Re-enable button
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Confirm Deposit';
+                }
             }
         }
 
         function renderDepositHistory() {
             const tbody = document.getElementById('deposit-history-body');
             if (!tbody) return;
-            
+
             tbody.innerHTML = '';
-            
+
             if (state.depositHistory.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4">No deposit history.</td></tr>';
                 return;
             }
-            
-            state.depositHistory.forEach(dep => {
+
+            // Sort by date (newest first) and show all deposits including pending
+            const sortedDeposits = state.depositHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            sortedDeposits.forEach(dep => {
                 const row = tbody.insertRow();
                 row.innerHTML = `
                     <td>${dep.date}</td>
@@ -2551,7 +2685,7 @@
         }
 
         // Withdrawal Functions
-        function handleWithdrawalSubmit(event) {
+        async function handleWithdrawalSubmit(event) {
             event.preventDefault();
 
             const amount = parseInt(document.getElementById('withdraw-amount').value);
@@ -2601,61 +2735,83 @@
                 submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             }
 
-            let remainingAmount = amount;
-            let usedWelcomeBonus = 0;
+            try {
+                let remainingAmount = amount;
+                let usedWelcomeBonus = 0;
 
-            if (state.welcomeBonusAmount > 0) {
-                if (remainingAmount <= state.welcomeBonusAmount) {
-                    usedWelcomeBonus = remainingAmount;
-                    state.welcomeBonusAmount -= remainingAmount;
-                    remainingAmount = 0;
-                } else {
-                    usedWelcomeBonus = state.welcomeBonusAmount;
-                    remainingAmount -= state.welcomeBonusAmount;
-                    state.welcomeBonusAmount = 0;
+                if (state.welcomeBonusAmount > 0) {
+                    if (remainingAmount <= state.welcomeBonusAmount) {
+                        usedWelcomeBonus = remainingAmount;
+                        state.welcomeBonusAmount -= remainingAmount;
+                        remainingAmount = 0;
+                    } else {
+                        usedWelcomeBonus = state.welcomeBonusAmount;
+                        remainingAmount -= state.welcomeBonusAmount;
+                        state.welcomeBonusAmount = 0;
+                    }
                 }
-            }
 
-            if (remainingAmount > 0) {
-                state.balance -= remainingAmount;
-            }
+                if (remainingAmount > 0) {
+                    // Update balance in Firebase
+                    await db.collection('users').doc(state.user.uid).update({
+                        balance: firebase.firestore.FieldValue.increment(-remainingAmount)
+                    });
+                    state.balance -= remainingAmount;
+                }
 
-            const newWithdrawal = {
-                id: Date.now().toString(),
-                date: new Date().toLocaleDateString(),
-                amount: amount,
-                method: method,
-                mobileNumber: mobileNumber.trim(),
-                usedWelcomeBonus: usedWelcomeBonus,
-                status: 'Pending Admin Approval'
-            };
+                const newWithdrawal = {
+                    amount: amount,
+                    method: method,
+                    mobileNumber: mobileNumber.trim(),
+                    usedWelcomeBonus: usedWelcomeBonus,
+                    status: 'pending',
+                    userEmail: state.user ? state.user.email : '',
+                    userId: state.user ? state.user.uid : '',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
 
-            state.withdrawHistory.push(newWithdrawal);
-            renderWithdrawalHistory();
-            updateDashboard();
+                // Save to Firebase
+                await db.collection('withdrawals').add(newWithdrawal);
 
-            showNotification(`Withdrawal of UGX ${amount.toLocaleString()} is pending admin approval.${usedWelcomeBonus > 0 ? ` (UGX ${usedWelcomeBonus.toLocaleString()} from welcome bonus)` : ''}`, 'success');
-            event.target.reset();
+                // Update local state
+                newWithdrawal.id = Date.now().toString();
+                newWithdrawal.date = new Date().toLocaleDateString();
+                state.withdrawHistory.push(newWithdrawal);
 
-            // Re-enable button
-            if (submitButton) {
-                submitButton.disabled = false;
-                submitButton.innerHTML = 'Request Withdrawal';
+                // Update both withdrawal history and dashboard immediately
+                renderWithdrawalHistory();
+                updateDashboard();
+
+                showNotification(`Withdrawal of UGX ${amount.toLocaleString()} is pending admin approval.${usedWelcomeBonus > 0 ? ` (UGX ${usedWelcomeBonus.toLocaleString()} from welcome bonus)` : ''}`, 'success');
+                event.target.reset();
+
+            } catch (error) {
+                console.error('Error submitting withdrawal:', error);
+                showNotification('Error submitting withdrawal. Please try again.', 'error');
+            } finally {
+                // Re-enable button
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Request Withdrawal';
+                }
             }
         }
 
         function renderWithdrawalHistory() {
             const tbody = document.getElementById('withdraw-history-body');
             if (!tbody) return;
-            
+
             tbody.innerHTML = '';
-            
+
             if (state.withdrawHistory.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4">No withdrawal history.</td></tr>';
                 return;
             }
-            
-            state.withdrawHistory.forEach(wd => {
+
+            // Sort by date (newest first) and show all withdrawals including pending
+            const sortedWithdrawals = state.withdrawHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            sortedWithdrawals.forEach(wd => {
                 const row = tbody.insertRow();
                 row.innerHTML = `
                     <td>${wd.date}</td>
@@ -2679,29 +2835,40 @@
             }
         }
 
-        function renderMyReferrals() {
+        function renderMyReferrals(referrals = null) {
             const tbody = document.getElementById('my-referrals-table-body');
             if (!tbody) return;
-            
+
             tbody.innerHTML = '';
-            
-            const dummyReferrals = [
-                { user: 'JaneDoe', dateJoined: '2025-05-01', totalInvestment: 50000, earnedBonus: 5000 },
-                { user: 'BobSmith', dateJoined: '2025-05-15', totalInvestment: 100000, earnedBonus: 10000 }
-            ];
-            
-            if (dummyReferrals.length === 0) {
+
+            let referralsToShow = referrals;
+
+            // If no referrals passed, try to load from state
+            if (!referralsToShow && state.user) {
+                // Load referrals from Firebase
+                loadUserReferrals();
+                return;
+            }
+
+            // Fallback to dummy data if no real data
+            if (!referralsToShow) {
+                const tbody = document.getElementById('my-referrals-table-body');
+                tbody.innerHTML = '<tr><td colspan="4">Loading referrals...</td></tr>';
+                return;
+            }
+
+            if (referralsToShow.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4">No referrals yet.</td></tr>';
                 return;
             }
-            
-            dummyReferrals.forEach(ref => {
+
+            referralsToShow.forEach(ref => {
                 const row = tbody.insertRow();
                 row.innerHTML = `
-                    <td>${ref.user}</td>
-                    <td>${ref.dateJoined}</td>
-                    <td>UGX ${ref.totalInvestment.toLocaleString()}</td>
-                    <td>UGX ${ref.earnedBonus.toLocaleString()}</td>
+                    <td>${ref.referredUserEmail || ref.user || 'N/A'}</td>
+                    <td>${ref.dateJoined || (ref.createdAt ? new Date(ref.createdAt.toDate()).toLocaleDateString() : 'N/A')}</td>
+                    <td>UGX ${(ref.totalInvestment || 0).toLocaleString()}</td>
+                    <td>UGX ${(ref.earnedBonus || 0).toLocaleString()}</td>
                 `;
             });
         }
@@ -2713,15 +2880,18 @@
                 return;
             }
             
+            // Hide all admin tab contents
             document.querySelectorAll('.admin-tab-content').forEach(tab => {
                 tab.style.display = 'none';
             });
             
+            // Show the target tab content
             const targetTab = document.getElementById(`${tabId}-tab`);
             if (targetTab) {
                 targetTab.style.display = 'block';
             }
             
+            // Load data based on the selected tab
             if (tabId === 'pending-deposits') {
                 loadPendingDeposits();
             } else if (tabId === 'pending-withdrawals') {
@@ -2734,105 +2904,380 @@
         function loadPendingDeposits() {
             const tbody = document.getElementById('pending-deposits-body');
             tbody.innerHTML = '<tr><td colspan="6">Loading pending deposits...</td></tr>';
-            
-            db.collection('deposits').where('status', '==', 'pending').get()
-                .then((depositsSnapshot) => {
-                    const deposits = [];
-                    depositsSnapshot.forEach(doc => {
-                        deposits.push({ id: doc.id, ...doc.data() });
+
+            // Check if we have local data first
+            if (state.depositHistory && state.depositHistory.length > 0) {
+                const pendingDeposits = state.depositHistory.filter(dep => dep.status === 'Pending Admin Approval');
+
+                if (pendingDeposits.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6">No pending deposits</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = pendingDeposits.map(deposit => `
+                    <tr>
+                        <td>${deposit.userEmail || (state.user ? state.user.username : 'N/A')}</td>
+                        <td>UGX ${deposit.amount.toLocaleString()}</td>
+                        <td>${deposit.method}</td>
+                        <td>${deposit.transactionId}</td>
+                        <td>${deposit.date}</td>
+                        <td>
+                            <button onclick="approveDepositById('${deposit.id}')" class="btn btn-success">Approve</button>
+                            <button onclick="rejectDepositById('${deposit.id}')" class="btn btn-danger">Reject</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                // Fallback to Firebase if local data is empty
+                db.collection('deposits').where('status', '==', 'pending').get()
+                    .then((depositsSnapshot) => {
+                        const deposits = [];
+                        depositsSnapshot.forEach(doc => {
+                            deposits.push({ id: doc.id, ...doc.data() });
+                        });
+
+                        if (deposits.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="6">No pending deposits</td></tr>';
+                            return;
+                        }
+
+                        tbody.innerHTML = deposits.map(deposit => `
+                            <tr>
+                                <td>${deposit.userEmail || 'N/A'}</td>
+                                <td>UGX ${deposit.amount.toLocaleString()}</td>
+                                <td>${deposit.method}</td>
+                                <td>${deposit.transactionId}</td>
+                                <td>${deposit.createdAt ? new Date(deposit.createdAt.toDate()).toLocaleDateString() : 'N/A'}</td>
+                                <td>
+                                    <button onclick="approveDeposit('${deposit.id}')" class="btn btn-success">Approve</button>
+                                    <button onclick="rejectDeposit('${deposit.id}')" class="btn btn-danger">Reject</button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    })
+                    .catch((error) => {
+                        console.error('Error loading deposits:', error);
+                        tbody.innerHTML = '<tr><td colspan="6">Error loading deposits. Please try again.</td></tr>';
                     });
-                    
-                    if (deposits.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="6">No pending deposits</td></tr>';
-                        return;
-                    }
-                    
-                    tbody.innerHTML = deposits.map(deposit => `
-                        <tr>
-                            <td>${deposit.userEmail || 'N/A'}</td>
-                            <td>UGX ${deposit.amount.toLocaleString()}</td>
-                            <td>${deposit.method}</td>
-                            <td>${deposit.transactionId}</td>
-                            <td>${new Date(deposit.createdAt.toDate()).toLocaleDateString()}</td>
-                            <td>
-                                <button onclick="approveDeposit('${deposit.id}')" class="btn btn-success">Approve</button>
-                                <button onclick="rejectDeposit('${deposit.id}')" class="btn btn-danger">Reject</button>
-                            </td>
-                        </tr>
-                    `).join('');
-                })
-                .catch((error) => {
-                    console.error('Error loading deposits:', error);
-                    tbody.innerHTML = '<tr><td colspan="6">Error: ' + error.message + '</td></tr>';
-                });
+            }
         }
 
         function loadPendingWithdrawals() {
             const tbody = document.getElementById('pending-withdrawals-body');
             tbody.innerHTML = '<tr><td colspan="6">Loading pending withdrawals...</td></tr>';
-            
-            db.collection('withdrawals').where('status', '==', 'pending').get()
-                .then((withdrawalsSnapshot) => {
-                    const withdrawals = [];
-                    withdrawalsSnapshot.forEach(doc => {
-                        withdrawals.push({ id: doc.id, ...doc.data() });
+
+            // Check if we have local data first
+            if (state.withdrawHistory && state.withdrawHistory.length > 0) {
+                const pendingWithdrawals = state.withdrawHistory.filter(wd => wd.status === 'Pending Admin Approval');
+
+                if (pendingWithdrawals.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6">No pending withdrawals</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = pendingWithdrawals.map(withdrawal => `
+                    <tr>
+                        <td>${withdrawal.userEmail || (state.user ? state.user.username : 'N/A')}</td>
+                        <td>UGX ${withdrawal.amount.toLocaleString()}</td>
+                        <td>${withdrawal.method}</td>
+                        <td>${withdrawal.mobileNumber || 'N/A'}</td>
+                        <td>${withdrawal.date}</td>
+                        <td>
+                            <button onclick="approveWithdrawalById('${withdrawal.id}')" class="btn btn-success">Approve</button>
+                            <button onclick="rejectWithdrawalById('${withdrawal.id}')" class="btn btn-danger">Reject</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                // Fallback to Firebase if local data is empty
+                db.collection('withdrawals').where('status', '==', 'pending').get()
+                    .then((withdrawalsSnapshot) => {
+                        const withdrawals = [];
+                        withdrawalsSnapshot.forEach(doc => {
+                            withdrawals.push({ id: doc.id, ...doc.data() });
+                        });
+
+                        if (withdrawals.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="6">No pending withdrawals</td></tr>';
+                            return;
+                        }
+
+                        tbody.innerHTML = withdrawals.map(withdrawal => `
+                            <tr>
+                                <td>${withdrawal.userEmail || 'N/A'}</td>
+                                <td>UGX ${withdrawal.amount.toLocaleString()}</td>
+                                <td>${withdrawal.method}</td>
+                                <td>${withdrawal.mobileNumber || 'N/A'}</td>
+                                <td>${withdrawal.createdAt ? new Date(withdrawal.createdAt.toDate()).toLocaleDateString() : 'N/A'}</td>
+                                <td>
+                                    <button onclick="approveWithdrawal('${withdrawal.id}')" class="btn btn-success">Approve</button>
+                                    <button onclick="rejectWithdrawal('${withdrawal.id}')" class="btn btn-danger">Reject</button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    })
+                    .catch((error) => {
+                        console.error('Error loading withdrawals:', error);
+                        tbody.innerHTML = '<tr><td colspan="6">Error loading withdrawals. Please try again.</td></tr>';
                     });
-                    
-                    if (withdrawals.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="6">No pending withdrawals</td></tr>';
-                        return;
-                    }
-                    
-                    tbody.innerHTML = withdrawals.map(withdrawal => `
-                        <tr>
-                            <td>${withdrawal.userEmail || 'N/A'}</td>
-                            <td>UGX ${withdrawal.amount.toLocaleString()}</td>
-                            <td>${withdrawal.method}</td>
-                            <td>${withdrawal.mobileNumber || 'N/A'}</td>
-                            <td>${new Date(withdrawal.createdAt.toDate()).toLocaleDateString()}</td>
-                            <td>
-                                <button onclick="approveWithdrawal('${withdrawal.id}')" class="btn btn-success">Approve</button>
-                                <button onclick="rejectWithdrawal('${withdrawal.id}')" class="btn btn-danger">Reject</button>
-                            </td>
-                        </tr>
-                    `).join('');
-                })
-                .catch((error) => {
-                    console.error('Error loading withdrawals:', error);
-                    tbody.innerHTML = '<tr><td colspan="6">Error: ' + error.message + '</td></tr>';
-                });
+            }
         }
 
-        function loadAllUsers() {
+        async function loadAllUsers() {
             const tbody = document.getElementById('all-users-body');
             tbody.innerHTML = '<tr><td colspan="5">Loading users...</td></tr>';
-            
-            db.collection('users').get()
-                .then((usersSnapshot) => {
-                    const users = [];
-                    usersSnapshot.forEach(doc => {
-                        users.push({ id: doc.id, ...doc.data() });
+
+            try {
+                const usersSnapshot = await db.collection('users').get();
+                const users = [];
+
+                usersSnapshot.forEach(doc => {
+                    const userData = doc.data();
+                    users.push({
+                        id: doc.id,
+                        username: userData.username || 'N/A',
+                        email: userData.email || 'N/A',
+                        phone: userData.phone || 'N/A',
+                        balance: userData.balance || 0,
+                        createdAt: userData.createdAt ? new Date(userData.createdAt.toDate()).toLocaleDateString() : 'N/A'
                     });
-                    
-                    if (users.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="5">No users found</td></tr>';
-                        return;
-                    }
-                    
-                    tbody.innerHTML = users.map(user => `
-                        <tr>
-                            <td>${user.username || 'N/A'}</td>
-                            <td>${user.email}</td>
-                            <td>${user.phone || 'N/A'}</td>
-                            <td>UGX ${(user.balance || 0).toLocaleString()}</td>
-                            <td>${user.createdAt ? new Date(user.createdAt.toDate()).toLocaleDateString() : 'N/A'}</td>
-                        </tr>
-                    `).join('');
-                })
-                .catch((error) => {
-                    console.error('Error loading users:', error);
-                    tbody.innerHTML = '<tr><td colspan="5">Error: ' + error.message + '</td></tr>';
                 });
+
+                if (users.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5">No users found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = users.map(user => `
+                    <tr>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phone}</td>
+                        <td>UGX ${user.balance.toLocaleString()}</td>
+                        <td>${user.createdAt}</td>
+                    </tr>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading users:', error);
+                tbody.innerHTML = '<tr><td colspan="5">Error loading users. Please try again.</td></tr>';
+            }
+        }
+
+        function approveLocalDeposit(depositId) {
+            const deposit = state.depositHistory.find(dep => dep.id === depositId);
+            if (deposit) {
+                deposit.status = 'Approved';
+                state.balance += deposit.amount;
+                updateDashboard();
+                renderDepositHistory();
+                loadPendingDeposits(); // Refresh the admin view
+                showNotification('Deposit approved successfully!', 'success');
+            }
+        }
+
+        function rejectLocalDeposit(depositId) {
+            const depositIndex = state.depositHistory.findIndex(dep => dep.id === depositId);
+            if (depositIndex !== -1) {
+                state.depositHistory[depositIndex].status = 'Rejected';
+                renderDepositHistory();
+                loadPendingDeposits(); // Refresh the admin view
+                showNotification('Deposit rejected!', 'success');
+            }
+        }
+
+        async function approveDepositById(depositId) {
+            try {
+                // Find the deposit in local state
+                const deposit = state.depositHistory.find(dep => dep.id === depositId);
+                if (!deposit) {
+                    showNotification('Deposit not found!', 'error');
+                    return;
+                }
+
+                // Update in Firebase
+                const depositQuery = await db.collection('deposits')
+                    .where('userEmail', '==', deposit.userEmail)
+                    .where('transactionId', '==', deposit.transactionId)
+                    .where('status', '==', 'pending')
+                    .get();
+
+                if (!depositQuery.empty) {
+                    const depositDoc = depositQuery.docs[0];
+                    await depositDoc.ref.update({
+                        status: 'approved',
+                        approvedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // Update user's balance in Firebase
+                    await db.collection('users').where('email', '==', deposit.userEmail).get()
+                        .then(async (userSnapshot) => {
+                            if (!userSnapshot.empty) {
+                                const userDoc = userSnapshot.docs[0];
+                                await userDoc.ref.update({
+                                    balance: firebase.firestore.FieldValue.increment(deposit.amount)
+                                });
+                            }
+                        });
+                }
+
+                // Update local state
+                deposit.status = 'Approved';
+                renderDepositHistory();
+                loadPendingDeposits(); // Refresh the admin view
+                showNotification('Deposit approved successfully!', 'success');
+
+            } catch (error) {
+                console.error('Error approving deposit:', error);
+                showNotification('Error approving deposit. Please try again.', 'error');
+            }
+        }
+
+        async function rejectDepositById(depositId) {
+            try {
+                // Find the deposit in local state
+                const deposit = state.depositHistory.find(dep => dep.id === depositId);
+                if (!deposit) {
+                    showNotification('Deposit not found!', 'error');
+                    return;
+                }
+
+                // Update in Firebase
+                const depositQuery = await db.collection('deposits')
+                    .where('userEmail', '==', deposit.userEmail)
+                    .where('transactionId', '==', deposit.transactionId)
+                    .where('status', '==', 'pending')
+                    .get();
+
+                if (!depositQuery.empty) {
+                    const depositDoc = depositQuery.docs[0];
+                    await depositDoc.ref.update({
+                        status: 'rejected',
+                        rejectedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                // Update local state
+                deposit.status = 'Rejected';
+                renderDepositHistory();
+                loadPendingDeposits(); // Refresh the admin view
+                showNotification('Deposit rejected!', 'success');
+
+            } catch (error) {
+                console.error('Error rejecting deposit:', error);
+                showNotification('Error rejecting deposit. Please try again.', 'error');
+            }
+        }
+
+        function approveLocalWithdrawal(withdrawalId) {
+            const withdrawal = state.withdrawHistory.find(wd => wd.id === withdrawalId);
+            if (withdrawal) {
+                withdrawal.status = 'Approved';
+                updateDashboard();
+                renderWithdrawalHistory();
+                loadPendingWithdrawals(); // Refresh the admin view
+                showNotification('Withdrawal approved successfully!', 'success');
+            }
+        }
+
+        function rejectLocalWithdrawal(withdrawalId) {
+            const withdrawalIndex = state.withdrawHistory.findIndex(wd => wd.id === withdrawalId);
+            if (withdrawalIndex !== -1) {
+                state.withdrawHistory[withdrawalIndex].status = 'Rejected';
+                // Return the money back to the user's balance
+                state.balance += state.withdrawHistory[withdrawalIndex].amount;
+                updateDashboard();
+                renderWithdrawalHistory();
+                loadPendingWithdrawals(); // Refresh the admin view
+                showNotification('Withdrawal rejected! Funds returned to user.', 'success');
+            }
+        }
+
+        async function approveWithdrawalById(withdrawalId) {
+            try {
+                // Find the withdrawal in local state
+                const withdrawal = state.withdrawHistory.find(wd => wd.id === withdrawalId);
+                if (!withdrawal) {
+                    showNotification('Withdrawal not found!', 'error');
+                    return;
+                }
+
+                // Update in Firebase
+                const withdrawalQuery = await db.collection('withdrawals')
+                    .where('userEmail', '==', withdrawal.userEmail)
+                    .where('mobileNumber', '==', withdrawal.mobileNumber)
+                    .where('status', '==', 'pending')
+                    .get();
+
+                if (!withdrawalQuery.empty) {
+                    const withdrawalDoc = withdrawalQuery.docs[0];
+                    await withdrawalDoc.ref.update({
+                        status: 'approved',
+                        approvedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                // Update local state
+                withdrawal.status = 'Approved';
+                updateDashboard();
+                renderWithdrawalHistory();
+                loadPendingWithdrawals(); // Refresh the admin view
+                showNotification('Withdrawal approved successfully!', 'success');
+
+            } catch (error) {
+                console.error('Error approving withdrawal:', error);
+                showNotification('Error approving withdrawal. Please try again.', 'error');
+            }
+        }
+
+        async function rejectWithdrawalById(withdrawalId) {
+            try {
+                // Find the withdrawal in local state
+                const withdrawal = state.withdrawHistory.find(wd => wd.id === withdrawalId);
+                if (!withdrawal) {
+                    showNotification('Withdrawal not found!', 'error');
+                    return;
+                }
+
+                // Update in Firebase
+                const withdrawalQuery = await db.collection('withdrawals')
+                    .where('userEmail', '==', withdrawal.userEmail)
+                    .where('mobileNumber', '==', withdrawal.mobileNumber)
+                    .where('status', '==', 'pending')
+                    .get();
+
+                if (!withdrawalQuery.empty) {
+                    const withdrawalDoc = withdrawalQuery.docs[0];
+                    await withdrawalDoc.ref.update({
+                        status: 'rejected',
+                        rejectedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // Return the money to user's balance in Firebase
+                    await db.collection('users').where('email', '==', withdrawal.userEmail).get()
+                        .then(async (userSnapshot) => {
+                            if (!userSnapshot.empty) {
+                                const userDoc = userSnapshot.docs[0];
+                                await userDoc.ref.update({
+                                    balance: firebase.firestore.FieldValue.increment(withdrawal.amount)
+                                });
+                            }
+                        });
+                }
+
+                // Update local state
+                withdrawal.status = 'Rejected';
+                // Return the money back to the user's balance
+                state.balance += withdrawal.amount;
+                updateDashboard();
+                renderWithdrawalHistory();
+                loadPendingWithdrawals(); // Refresh the admin view
+                showNotification('Withdrawal rejected! Funds returned to user.', 'success');
+
+            } catch (error) {
+                console.error('Error rejecting withdrawal:', error);
+                showNotification('Error rejecting withdrawal. Please try again.', 'error');
+            }
         }
 
         function approveDeposit(depositId) {
@@ -2946,17 +3391,25 @@
                 if (adminNavItem) {
                     adminNavItem.style.display = 'block';
                 }
+                
+                // Make sure the admin tab content is visible
+                const adminTab = document.getElementById('admin-tab');
+                if (adminTab) {
+                    adminTab.style.display = 'block';
+                }
             }
 
             // Hide all tab contents
             document.querySelectorAll('.dashboard-tab-content').forEach(content => {
                 content.classList.remove('active');
+                content.style.display = 'none';
             });
 
             // Show target tab content
             const targetTab = document.getElementById(tabId);
             if (targetTab) {
                 targetTab.classList.add('active');
+                targetTab.style.display = 'block';
             }
 
             // Update navigation active state
@@ -2974,16 +3427,17 @@
 
             // Load tab-specific content
             if (tabId === 'my-investments-tab') {
-                renderInvestments();
+                loadUserInvestments();
             } else if (tabId === 'deposit-tab') {
-                renderDepositHistory();
+                loadUserDeposits();
             } else if (tabId === 'withdraw-tab') {
-                renderWithdrawalHistory();
+                loadUserWithdrawals();
             } else if (tabId === 'referrals-tab') {
-                renderMyReferrals();
+                loadUserReferrals();
             } else if (tabId === 'admin-tab') {
                 // Load admin tabs
                 if (state.user?.email === 'kaigwaakram123@gmail.com') {
+                    // Show the pending-deposits tab by default
                     showAdminTab('pending-deposits');
                 }
             }
@@ -3219,6 +3673,7 @@
                     if (userDoc.exists) {
                         const userData = userDoc.data();
 
+                        // Update state first
                         state.user = {
                             uid: auth.currentUser.uid,
                             username: userData.username,
@@ -3231,7 +3686,11 @@
                         state.isLoggedIn = true;
 
                         showNotification(`Welcome back, ${userData.username}!`, 'success');
-                        showPage('dashboard-page');
+
+                        // Use setTimeout to ensure state is updated before showing dashboard
+                        setTimeout(() => {
+                            showPage('dashboard-page');
+                        }, 100);
                     } else {
                         throw new Error('User data not found. Please contact support.');
                     }
@@ -3323,7 +3782,7 @@
                     updateDashboard();
                     
                     showNotification('🎉 Welcome bonus claimed successfully! UGX 4,000 has been added to your account.', 'success');
-                    showPage('login-page');
+                    showPage('dashboard-page');
                 })
                 .catch((error) => {
                     console.error('Error claiming bonus:', error);
@@ -3331,6 +3790,189 @@
                     
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-coins"></i> Claim UGX 4,000 Bonus';
+                });
+        }
+
+        // Firebase Data Loading Functions
+        async function loadUserData() {
+            if (!state.user) return;
+
+            try {
+                const userDoc = await db.collection('users').doc(state.user.uid).get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    state.balance = userData.balance || 0;
+                    state.welcomeBonusAmount = userData.welcomeBonusClaimed ? 0 : 4000;
+                    updateDashboard();
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        async function loadUserInvestments() {
+            if (!state.user) return;
+
+            try {
+                const investmentsSnapshot = await db.collection('investments')
+                    .where('userId', '==', state.user.uid)
+                    .get();
+
+                state.investments = [];
+                investmentsSnapshot.forEach(doc => {
+                    const investment = { id: doc.id, ...doc.data() };
+                    // Convert Firestore timestamps to Date objects
+                    if (investment.startDate && investment.startDate.toDate) {
+                        investment.startDate = investment.startDate.toDate();
+                    }
+                    if (investment.endDate && investment.endDate.toDate) {
+                        investment.endDate = investment.endDate.toDate();
+                    }
+                    state.investments.push(investment);
+                });
+
+                renderInvestments();
+            } catch (error) {
+                console.error('Error loading investments:', error);
+            }
+        }
+
+        async function loadUserDeposits() {
+            if (!state.user) return;
+
+            try {
+                const depositsSnapshot = await db.collection('deposits')
+                    .where('userEmail', '==', state.user.email)
+                    .get();
+
+                state.depositHistory = [];
+                depositsSnapshot.forEach(doc => {
+                    const deposit = { id: doc.id, ...doc.data() };
+                    // Convert Firestore timestamps to Date objects
+                    if (deposit.createdAt && deposit.createdAt.toDate) {
+                        deposit.date = deposit.createdAt.toDate().toLocaleDateString();
+                    }
+                    state.depositHistory.push(deposit);
+                });
+
+                renderDepositHistory();
+            } catch (error) {
+                console.error('Error loading deposits:', error);
+            }
+        }
+
+        async function loadUserWithdrawals() {
+            if (!state.user) return;
+
+            try {
+                const withdrawalsSnapshot = await db.collection('withdrawals')
+                    .where('userEmail', '==', state.user.email)
+                    .get();
+
+                state.withdrawHistory = [];
+                withdrawalsSnapshot.forEach(doc => {
+                    const withdrawal = { id: doc.id, ...doc.data() };
+                    // Convert Firestore timestamps to Date objects
+                    if (withdrawal.createdAt && withdrawal.createdAt.toDate) {
+                        withdrawal.date = withdrawal.createdAt.toDate().toLocaleDateString();
+                    }
+                    state.withdrawHistory.push(withdrawal);
+                });
+
+                renderWithdrawalHistory();
+            } catch (error) {
+                console.error('Error loading withdrawals:', error);
+            }
+        }
+
+        async function loadUserReferrals() {
+            if (!state.user) return;
+
+            try {
+                const referralsSnapshot = await db.collection('referrals')
+                    .where('referrerId', '==', state.user.uid)
+                    .get();
+
+                const referrals = [];
+                referralsSnapshot.forEach(doc => {
+                    referrals.push({ id: doc.id, ...doc.data() });
+                });
+
+                renderMyReferrals(referrals);
+            } catch (error) {
+                console.error('Error loading referrals:', error);
+            }
+        }
+
+        // Real-time listeners for Firebase data
+        function setupRealtimeListeners() {
+            if (!state.user) return;
+
+            // Listen for user data changes
+            db.collection('users').doc(state.user.uid)
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        state.balance = userData.balance || 0;
+                        state.welcomeBonusAmount = userData.welcomeBonusClaimed ? 0 : 4000;
+                        updateDashboard();
+                    }
+                }, (error) => {
+                    console.error('Error listening to user data:', error);
+                });
+
+            // Listen for investment changes
+            db.collection('investments').where('userId', '==', state.user.uid)
+                .onSnapshot((snapshot) => {
+                    state.investments = [];
+                    snapshot.forEach(doc => {
+                        const investment = { id: doc.id, ...doc.data() };
+                        // Convert Firestore timestamps to Date objects
+                        if (investment.startDate && investment.startDate.toDate) {
+                            investment.startDate = investment.startDate.toDate();
+                        }
+                        if (investment.endDate && investment.endDate.toDate) {
+                            investment.endDate = investment.endDate.toDate();
+                        }
+                        state.investments.push(investment);
+                    });
+                    renderInvestments();
+                }, (error) => {
+                    console.error('Error listening to investments:', error);
+                });
+
+            // Listen for deposit changes
+            db.collection('deposits').where('userEmail', '==', state.user.email)
+                .onSnapshot((snapshot) => {
+                    state.depositHistory = [];
+                    snapshot.forEach(doc => {
+                        const deposit = { id: doc.id, ...doc.data() };
+                        // Convert Firestore timestamps to Date objects
+                        if (deposit.createdAt && deposit.createdAt.toDate) {
+                            deposit.date = deposit.createdAt.toDate().toLocaleDateString();
+                        }
+                        state.depositHistory.push(deposit);
+                    });
+                    renderDepositHistory();
+                }, (error) => {
+                    console.error('Error listening to deposits:', error);
+                });
+
+            // Listen for withdrawal changes
+            db.collection('withdrawals').where('userEmail', '==', state.user.email)
+                .onSnapshot((snapshot) => {
+                    state.withdrawHistory = [];
+                    snapshot.forEach(doc => {
+                        const withdrawal = { id: doc.id, ...doc.data() };
+                        // Convert Firestore timestamps to Date objects
+                        if (withdrawal.createdAt && withdrawal.createdAt.toDate) {
+                            withdrawal.date = withdrawal.createdAt.toDate().toLocaleDateString();
+                        }
+                        state.withdrawHistory.push(withdrawal);
+                    });
+                    renderWithdrawalHistory();
+                }, (error) => {
+                    console.error('Error listening to withdrawals:', error);
                 });
         }
 
@@ -3400,18 +4042,21 @@
                         .then((userDoc) => {
                             if (userDoc.exists) {
                                 const userData = userDoc.data();
-                                
+
                                 state.user = {
                                     uid: user.uid,
                                     username: userData.username,
                                     email: userData.email,
                                     phone: userData.phone || ''
                                 };
-                                
+
                                 state.balance = userData.balance || 0;
                                 state.welcomeBonusAmount = userData.welcomeBonusClaimed ? 0 : 4000;
                                 state.isLoggedIn = true;
-                                
+
+                                // Set up real-time listeners for live data updates
+                                setupRealtimeListeners();
+
                                 if (state.currentPage === 'dashboard-page') {
                                     updateDashboard();
                                 }
@@ -3429,7 +4074,7 @@
                     state.depositHistory = [];
                     state.withdrawHistory = [];
                     state.isLoggedIn = false;
-                    
+
                     document.getElementById('dashboard-page').style.display = 'none';
                     showPage('welcome-page');
                 }
@@ -3498,65 +4143,6 @@
             document.body.style.backgroundImage = `url('${backgroundImages[0]}')`;
             setInterval(window.changeBackgroundImage, 10000);
         }
-
-        // Add CSS for notifications
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-            
-            @keyframes slideOut {
-                from {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-            }
-            
-            .status {
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-weight: bold;
-                font-size: 0.9em;
-            }
-            
-            .status.active {
-                background-color: #d4edda;
-                color: #155724;
-            }
-            
-            .status.pending-admin-approval {
-                background-color: #fff3cd;
-                color: #856404;
-            }
-            
-            .status.approved {
-                background-color: #d1ecf1;
-                color: #0c5460;
-            }
-            
-            .status.rejected {
-                background-color: #f8d7da;
-                color: #721c24;
-            }
-            
-            .status.completed {
-                background-color: #d4edda;
-                color: #155724;
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
