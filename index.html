@@ -534,10 +534,9 @@ function updateAuthUI(isLoggedIn, user) {
     document.getElementById('seed-diploma-button').classList.add('hidden');
     logoutButton.textContent = `Logout (${user.email || user.uid.substring(0,8)}...)`;
 
-    // Show/hide admin access button based on user role
-    const adminAccessSection = document.getElementById('admin-access-section');
-    if (user.email === 'kaigwaakram123@gmail.com' && adminAccessSection) {
-      adminAccessSection.classList.remove('hidden');
+    // Show admin buttons if user is admin
+    if (user.email === 'kaigwaakram123@gmail.com') {
+      showAdminAccessButton();
     }
   } else {
     loginButton.classList.remove('hidden');
@@ -546,11 +545,20 @@ function updateAuthUI(isLoggedIn, user) {
     seedButton.classList.add('hidden');
     document.getElementById('seed-diploma-button').classList.add('hidden');
 
-    // Hide admin access button when logged out
-    const adminAccessSection = document.getElementById('admin-access-section');
-    if (adminAccessSection) {
-      adminAccessSection.classList.add('hidden');
-    }
+    // Hide admin buttons when logged out
+    hideAdminButtons();
+  }
+}
+
+function hideAdminButtons() {
+  const adminButton = document.getElementById('admin-dashboard-button');
+  if (adminButton) {
+    adminButton.classList.add('hidden');
+  }
+
+  const adminAccessSection = document.getElementById('admin-access-section');
+  if (adminAccessSection) {
+    adminAccessSection.classList.add('hidden');
   }
 }
 
@@ -744,6 +752,11 @@ function updateUserInfo() {
         loadAdminDashboard();
       }
       renderContent();
+
+      // Ensure admin buttons remain visible for admin users when navigating
+      if (user && user.email === 'kaigwaakram123@gmail.com' && page === 'home') {
+        showAdminAccessButton();
+      }
     }
 
     function handleCourseSelection(courseId) {
@@ -768,6 +781,7 @@ function updateUserInfo() {
     }
 
     window.handleCourseSelection = handleCourseSelection;
+    window.goToPage = goToPage;
 
     function toggleCourseSemesters(courseId) {
       const courseItem = document.querySelector('.course-item[data-course-id="' + courseId + '"]');
@@ -1358,7 +1372,7 @@ function updateUserInfo() {
                         <div class="p-8 bg-gradient-to-br from-white via-purple-50 to-indigo-100 backdrop-blur-sm rounded-2xl shadow-2xl w-full border border-purple-200">
                             <div class="flex justify-between items-center mb-6">
                               <h2 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent animate-fade-in">Admin Dashboard</h2>
-                              <button onclick="goToPage('home')" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors">
+                              <button onclick="window.goToPage('home')" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors">
                                 Back to Home
                               </button>
                             </div>
@@ -1436,7 +1450,7 @@ function updateUserInfo() {
                                     <option value="approved">Approved</option>
                                     <option value="rejected">Rejected</option>
                                   </select>
-                                  <button id="refresh-users" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-colors">
+                                  <button id="refresh-users" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-colors" onclick="window.loadAdminDashboard()">
                                     Refresh
                                   </button>
                                 </div>
@@ -1930,6 +1944,21 @@ function updateUserInfo() {
       }
     }
 
+    function showAdminAccessButton() {
+      // Show admin dashboard button in sidebar
+      const adminButton = document.getElementById('admin-dashboard-button');
+      if (adminButton) {
+        adminButton.classList.remove('hidden');
+      }
+
+      // Show admin access button on homepage
+      const adminAccessSection = document.getElementById('admin-access-section');
+      const adminAccessButton = document.getElementById('admin-access-button');
+      if (adminAccessSection && adminAccessButton) {
+        adminAccessSection.classList.remove('hidden');
+      }
+    }
+
     // Admin Dashboard Functions - Global variables
     let allUsers = [];
     let filteredUsers = [];
@@ -2147,6 +2176,7 @@ function updateUserInfo() {
     window.bulkRejectUsers = bulkRejectUsers;
     window.approveSingleUser = approveSingleUser;
     window.rejectSingleUser = rejectSingleUser;
+    window.loadAdminDashboard = loadAdminDashboard;
 
     async function bulkApproveUsers() {
       if (selectedUsers.size === 0) return;
@@ -2451,11 +2481,7 @@ function updateUserInfo() {
                 adminButton.classList.remove('hidden');
               }
               // Show admin access button on homepage
-              const adminAccessSection = document.getElementById('admin-access-section');
-              const adminAccessButton = document.getElementById('admin-access-button');
-              if (adminAccessSection && adminAccessButton) {
-                adminAccessSection.classList.remove('hidden');
-              }
+              showAdminAccessButton();
               fetchCourses(); // Admin has full access
             } else if (user.isAnonymous) {
               // Anonymous users have limited access
@@ -2651,6 +2677,8 @@ function updateUserInfo() {
               showModal(registerModal);
             } else if (e.target.id === 'logout-button') {
               if (confirm('Are you sure you want to logout?')) {
+                // Hide admin buttons before logout
+                hideAdminButtons();
                 auth.signOut();
               }
             } else if (e.target.id === 'seed-clt-button') {
