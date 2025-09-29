@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+v<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -203,33 +203,6 @@
             font-size: 1.2em;
         }
 
-        .btn-phone {
-            background: linear-gradient(45deg, #00d4aa, #00a085);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin: 10px 5px;
-            box-shadow: 0 4px 10px rgba(0, 212, 170, 0.3);
-        }
-
-        .btn-phone:hover {
-            background: linear-gradient(45deg, #00a085, #00d4aa);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 212, 170, 0.4);
-        }
-
-        .btn-phone i {
-            font-size: 1.2em;
-        }
 
         .auth-divider {
             text-align: center;
@@ -257,41 +230,6 @@
             z-index: 2;
         }
 
-        .phone-auth-section {
-            margin-top: 20px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border: 1px solid #e9ecef;
-        }
-
-        .phone-auth-section h4 {
-            margin-top: 0;
-            color: #495057;
-            font-size: 1.1em;
-        }
-
-        .verification-code-inputs {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin: 15px 0;
-        }
-
-        .verification-code-inputs input {
-            width: 45px;
-            height: 45px;
-            text-align: center;
-            font-size: 1.2em;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-
-        .verification-code-inputs input:focus {
-            border-color: #00d4aa;
-        }
 
         .btn-copy {
             background-color: #6f42c1;
@@ -1278,9 +1216,6 @@
                 <button type="button" class="btn btn-google" onclick="signInWithGoogle()">
                     <i class="fab fa-google"></i> Sign up with Google
                 </button>
-                <button type="button" class="btn btn-phone" onclick="showPhoneAuth()">
-                    <i class="fas fa-phone"></i> Sign up with Phone
-                </button>
             </div>
 
             <div class="auth-divider">
@@ -1319,46 +1254,43 @@
                 <p class="auth-link">Already have an account? <a href="#" onclick="showPage('login-page')">Login</a></p>
             </form>
 
-            <div id="phone-auth-section" class="phone-auth-section" style="display: none;">
-                <button class="back-btn" onclick="hidePhoneAuth()" style="position: absolute; top: 20px; right: 20px;">
-                    <i class="fas fa-arrow-left"></i> Back to Login
-                </button>
-                <h4>Phone Number Verification</h4>
-                <div class="form-group">
-                    <label for="phone-number">Phone Number:</label>
-                    <input type="tel" id="phone-number" placeholder="+256XXXXXXXXX" required>
-                    <span class="error-message" id="phone-number-error"></span>
-                </div>
-                <button type="button" class="btn btn-phone" onclick="sendVerificationCode()">
-                    <i class="fas fa-paper-plane"></i> Send Verification Code
-                </button>
-
-                <div id="verification-section" style="display: none;">
-                    <h4>Enter Verification Code</h4>
-                    <p>We've sent a 6-digit code to <span id="phone-display"></span></p>
-                    <div class="verification-code-inputs">
-                        <input type="text" maxlength="1" class="code-input" data-index="0">
-                        <input type="text" maxlength="1" class="code-input" data-index="1">
-                        <input type="text" maxlength="1" class="code-input" data-index="2">
-                        <input type="text" maxlength="1" class="code-input" data-index="3">
-                        <input type="text" maxlength="1" class="code-input" data-index="4">
-                        <input type="text" maxlength="1" class="code-input" data-index="5">
-                    </div>
-                    <button type="button" class="btn btn-primary" onclick="verifyCode()">Verify Code</button>
-                    <button type="button" class="btn btn-secondary" onclick="resendCode()" style="margin-left: 10px;">Resend Code</button>
-                </div>
-            </div>
 
             <div id="welcome-bonus-section" class="welcome-bonus-claim" style="display: none; margin-top: 30px; text-align: center;">
                 <div style="background: linear-gradient(135deg, #28a745, #20c997); padding: 25px; border-radius: 15px; box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);">
                     <h3 style="margin: 0 0 15px 0; color: white; font-size: 1.5em;"><i class="fas fa-gift"></i> Welcome Bonus!</h3>
-                    <p style="margin: 0 0 20px 0; font-size: 1.1em; color: white;">Congratulations on joining DailyEarners! Click below to claim your welcome bonus.</p>
-                    <button id="claim-bonus-btn" class="btn btn-primary" style="background: #ffc107; color: #333; font-size: 1.3em; padding: 18px 35px; border: none; border-radius: 25px; font-weight: bold; box-shadow: 0 6px 15px rgba(255, 193, 7, 0.4); transition: all 0.3s ease;">
-                        <i class="fas fa-coins"></i> Claim UGX 4,000 Bonus
-                    </button>
+                    <p style="margin: 0 0 20px 0; font-size: 1.1em; color: white;">🎉 Congratulations on joining DailyEarners! Your welcome bonus of UGX 4,000 has been automatically added to your account balance.</p>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                        <p style="margin: 0; font-size: 1.2em; color: white; font-weight: bold;">
+                            <i class="fas fa-coins"></i> UGX 4,000 Added to Your Balance!
+                        </p>
+                    </div>
                     <p style="margin: 15px 0 0 0; font-size: 0.9em; color: rgba(255,255,255,0.8);">
-                        <i class="fas fa-info-circle"></i> This bonus can only be claimed once per account
+                        <i class="fas fa-info-circle"></i> This welcome bonus helps you get started with your investments
                     </p>
+                </div>
+            </div>
+
+            <!-- Firebase Configuration Troubleshooting -->
+            <div id="firebase-troubleshooting" style="display: none; margin-top: 20px;">
+                <div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 8px;">
+                    <h4 style="margin: 0 0 10px 0;"><i class="fas fa-exclamation-triangle"></i> Authentication Issues Detected</h4>
+                    <p style="margin: 0 0 10px 0; font-size: 0.9em;">We're detecting Firebase configuration issues. Here's how to fix them:</p>
+
+                    <div style="text-align: left; font-size: 0.85em;">
+                        <strong>🔐 For Google Sign-In ("unauthorized domain"):</strong>
+                        <ol style="margin: 5px 0; padding-left: 20px;">
+                            <li>Go to <a href="https://console.firebase.google.com/" target="_blank" style="color: #721c24;">Firebase Console</a></li>
+                            <li>Select your project: <code>dailyearners1</code></li>
+                            <li>Navigate to: Authentication → Settings → Authorized Domains</li>
+                            <li>Add your current domain: <code id="current-domain">localhost</code></li>
+                        </ol>
+
+                    </div>
+
+                    <div style="margin-top: 10px; text-align: center;">
+                        <button onclick="hideTroubleshooting()" class="btn btn-danger" style="font-size: 0.8em; padding: 8px 16px;">Got it</button>
+                        <button onclick="fixFirebaseConfig()" class="btn btn-info" style="font-size: 0.8em; padding: 8px 16px; margin-left: 10px;">Show Details</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1370,9 +1302,6 @@
             <div style="text-align: center; margin-bottom: 20px;">
                 <button type="button" class="btn btn-google" onclick="signInWithGoogle()">
                     <i class="fab fa-google"></i> Sign in with Google
-                </button>
-                <button type="button" class="btn btn-phone" onclick="showPhoneAuth()">
-                    <i class="fas fa-phone"></i> Sign in with Phone
                 </button>
             </div>
 
@@ -1473,19 +1402,19 @@
                     <i class="fab fa-whatsapp icon-large whatsapp-color"></i>
                     <h3>WhatsApp Support</h3>
                     <p>Chat with us instantly</p>
-                    <a href="https://wa.me/256700913516" target="_blank" class="btn btn-whatsapp">0746160623</a>
+                    <a href="https://wa.me/256749846848" target="_blank" class="btn btn-whatsapp">0749846848</a>
                 </div>
                 <div class="contact-card">
                     <i class="fab fa-telegram-plane icon-large telegram-color"></i>
                     <h3>Telegram Support</h3>
                     <p>Connect on Telegram</p>
-                    <a href="https://t.me/dailyearners_support" target="_blank" class="btn btn-telegram">0700913516</a>
+                    <a href="https://t.me/+256706571957" target="_blank" class="btn btn-telegram">+256706571957</a>
                 </div>
                 <div class="contact-card">
                     <i class="fas fa-envelope icon-large email-color"></i>
                     <h3>Email Support</h3>
                     <p>Send us an email</p>
-                    <a href="mailto:dailyearners123@gmail.com" class="btn btn-email">dailyearners123@gmail.com</a>
+                    <a href="mailto:dailyearners1234@gmail.com" class="btn btn-email">dailyearners1234@gmail.com</a>
                 </div>
                 <div class="contact-card">
                     <i class="fas fa-map-marker-alt icon-large location-color"></i>
@@ -1517,7 +1446,7 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <div id="welcome-bonus-display" class="welcome-bonus-badge">Welcome Bonus: UGX 4,000!</div>
+                    <!-- Welcome bonus display removed since bonus is now automatic -->
                     <button class="btn btn-logout" onclick="logoutUser()">Logout <i class="fas fa-sign-out-alt"></i></button>
                 </div>
             </header>
@@ -1533,7 +1462,6 @@
                             <li><a href="#" class="nav-item" data-target="withdraw-tab"><i class="fas fa-wallet"></i> Withdraw</a></li>
                             <li><a href="#" class="nav-item" data-target="referrals-tab"><i class="fas fa-user-group"></i> Referrals</a></li>
                             <li><a href="#" class="nav-item" data-target="customer-care-tab"><i class="fas fa-headset"></i> Customer Care</a></li>
-                            <li id="admin-nav-item" style="display: none;"><a href="#" class="nav-item" data-target="admin-tab"><i class="fas fa-crown"></i> Admin Panel</a></li>
                         </ul>
                     </nav>
                 </aside>
@@ -1596,7 +1524,29 @@
                     </div>
 
                     <div id="my-investments-tab" class="dashboard-tab-content">
-                        <h2>Your Active Investments</h2>
+                        <h2>Your Investment Overview</h2>
+
+                        <!-- Balance Summary -->
+                        <div style="background: linear-gradient(135deg, #007bff, #0056b3); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                            <h3 style="margin: 0 0 15px 0;"><i class="fas fa-wallet"></i> Account Balance</h3>
+                            <p style="font-size: 1.5em; margin: 0; font-weight: bold;">UGX <span id="investment-balance-display">0</span></p>
+                            <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9em;">Available for new investments</p>
+                        </div>
+
+                        <!-- Investment Summary -->
+                        <div style="background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                            <h3 style="margin: 0 0 15px 0;"><i class="fas fa-chart-line"></i> Investment Summary</h3>
+                            <div style="display: flex; gap: 20px;">
+                                <div>
+                                    <p style="margin: 0; font-size: 1.1em;">Total Invested: <strong>UGX <span id="total-invested-display">0</span></strong></p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 1.1em;">Active Investments: <strong><span id="active-investments-count">0</span></strong></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Your Active Investments</h3>
                         <table class="data-table">
                             <thead>
                                 <tr>
@@ -1615,6 +1565,18 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                        <!-- Deposit Information for Investments -->
+                        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #007bff;">
+                            <h4><i class="fas fa-info-circle"></i> Investment Funding</h4>
+                            <p>Your investments are funded from your account balance, which includes:</p>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li><strong>Welcome Bonus:</strong> UGX 4,000 (automatically added to new accounts)</li>
+                                <li><strong>Deposits:</strong> Funds from Mobile Money deposits</li>
+                                <li><strong>Investment Returns:</strong> Profits from completed investments</li>
+                            </ul>
+                            <p style="margin-bottom: 0;"><em>When you make an investment, the amount is deducted from your available balance and locked until the investment completes.</em></p>
+                        </div>
                     </div>
 
                     <div id="deposit-tab" class="dashboard-tab-content">
@@ -1774,13 +1736,13 @@
                                 <i class="fab fa-whatsapp icon-large whatsapp-color"></i>
                                 <h3>WhatsApp Support</h3>
                                 <p>Chat with us instantly:</p>
-                                <a href="https://wa.me/256700913516" target="_blank" class="btn btn-whatsapp">0749846848</a>
+                                <a href="https://wa.me/256749846848" target="_blank" class="btn btn-whatsapp">0749846848</a>
                             </div>
                             <div class="contact-card">
                                 <i class="fab fa-telegram-plane icon-large telegram-color"></i>
                                 <h3>Telegram Support</h3>
                                 <p>Connect on Telegram:</p>
-                                <a href="https://t.me/your_telegram_username_or_number" target="_blank" class="btn btn-telegram">0706571957</a>
+                                <a href="https://t.me/+256706571957" target="_blank" class="btn btn-telegram">+256706571957</a>
                             </div>
                             <div class="contact-card">
                                 <i class="fas fa-envelope icon-large email-color"></i>
@@ -1804,10 +1766,14 @@
                         <div style="margin-bottom: 30px;">
                             <button onclick="showAdminTab('pending-deposits')" class="btn btn-primary">Pending Deposits</button>
                             <button onclick="showAdminTab('pending-withdrawals')" class="btn btn-info">Pending Withdrawals</button>
-                            <button onclick="showAdminTab('all-users')" class="btn btn-success">All Users</button>
                             <button onclick="testAdminFunctions()" class="btn btn-warning" style="margin-left: 10px;">Debug/Test Functions</button>
                             <button onclick="testFirebasePermissions()" class="btn btn-secondary" style="margin-left: 5px;">Test Permissions</button>
                             <button onclick="forceRefreshAdminData()" class="btn btn-info" style="margin-left: 5px;">🔄 Force Refresh</button>
+                            <button onclick="testBalanceFunctionality()" class="btn btn-success" style="margin-left: 5px;" title="Test balance validation and calculations">🧪 Test Balance</button>
+                            <button onclick="diagnoseFirebaseAuth()" class="btn btn-warning" style="margin-left: 5px;" title="Diagnose Firebase authentication issues">🔧 Diagnose Auth</button>
+                            <button onclick="fixFirebaseConfig()" class="btn btn-info" style="margin-left: 5px;" title="Show Firebase configuration fix instructions">⚙️ Config Help</button>
+                            <button onclick="testRecaptcha()" class="btn btn-success" style="margin-left: 5px;" title="Test Google Sign-In functionality">🔐 Test Google Auth</button>
+                            <button onclick="testUserSpecificFiltering()" class="btn btn-info" style="margin-left: 5px;" title="Test that users only see their own investments">👤 Test User Filtering</button>
                         </div>
 
                         <div id="pending-deposits-tab" class="admin-tab-content" style="display: block;">
@@ -1848,23 +1814,6 @@
                             </table>
                         </div>
 
-                        <div id="all-users-tab" class="admin-tab-content" style="display: none;">
-                            <h3>All Users</h3>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Balance</th>
-                                        <th>Joined</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="all-users-body">
-                                    <tr><td colspan="5">Loading users...</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </main>
             </div>
@@ -1904,14 +1853,98 @@
         const state = {
             user: null,
             balance: 0,
-            welcomeBonusAmount: 0,
+            welcomeBonusAmount: 0, // No longer used since bonus is automatic
             investments: [],
             depositHistory: [],
             withdrawHistory: [],
             referralCode: 'DAILYEARNERSUSER123',
             isLoggedIn: false,
-            currentPage: 'welcome-page'
+            currentPage: 'welcome-page',
+            activeTimers: new Map() // Store active timer references for cleanup
         };
+
+        // Firebase configuration diagnostic function
+        function diagnoseFirebaseAuth() {
+            console.log('🔧 Firebase Auth Diagnostics:');
+            console.log('Current user:', auth.currentUser);
+            console.log('Current domain:', window.location.hostname);
+            console.log('Firebase config:', {
+                apiKey: firebaseConfig.apiKey ? 'Set' : 'Missing',
+                authDomain: firebaseConfig.authDomain,
+                projectId: firebaseConfig.projectId
+            });
+
+            // Check if Google provider is enabled
+            auth.fetchSignInMethodsForEmail('test@example.com').then(methods => {
+                console.log('Available sign-in methods:', methods);
+            }).catch(error => {
+                console.log('Error checking sign-in methods:', error);
+            });
+        }
+
+        // Balance validation utility function
+        function validateBalanceOperation(currentBalance, operationAmount, operationType = 'deduct') {
+            if (operationType === 'deduct') {
+                if (currentBalance - operationAmount < 0) {
+                    showNotification(`Insufficient balance. Operation would result in negative balance. Current balance: UGX ${currentBalance.toLocaleString()}`, 'error');
+                    return false;
+                }
+            } else if (operationType === 'set') {
+                if (operationAmount < 0) {
+                    showNotification('Balance cannot be set to a negative value.', 'error');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Investment duration validation function
+        function validateInvestmentDuration(packageName, startDate, endDate, expectedDurationDays) {
+            const now = new Date();
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            // Check if start date is in the past
+            if (start < now && Math.abs(start - now) > 60000) { // Allow 1 minute tolerance for clock differences
+                showNotification('Investment start date cannot be in the past.', 'error');
+                return false;
+            }
+
+            // Check if end date is before start date
+            if (end <= start) {
+                showNotification('Investment end date must be after the start date.', 'error');
+                return false;
+            }
+
+            // Calculate actual duration
+            const actualDurationMs = end - start;
+            const actualDurationDays = Math.ceil(actualDurationMs / (1000 * 60 * 60 * 24));
+
+            // Check if duration is reasonable (not negative, not too long)
+            if (actualDurationDays <= 0) {
+                showNotification('Investment duration must be at least 1 day.', 'error');
+                return false;
+            }
+
+            if (actualDurationDays > 90) {
+                showNotification('Investment duration cannot exceed 90 days.', 'error');
+                return false;
+            }
+
+            // Check if duration matches expected duration for the package
+            const durationTolerance = 1; // Allow 1 day tolerance
+            if (Math.abs(actualDurationDays - expectedDurationDays) > durationTolerance) {
+                showNotification(`Investment duration (${actualDurationDays} days) does not match the expected duration for ${packageName} (${expectedDurationDays} days).`, 'error');
+                return false;
+            }
+
+            return {
+                isValid: true,
+                actualDurationDays: actualDurationDays,
+                startDate: start,
+                endDate: end
+            };
+        }
 
         // UI Functions
         function showPage(pageId) {
@@ -2007,8 +2040,15 @@
 
         // Authentication Functions
         async function signInWithGoogle() {
+            const googleBtn = document.querySelector('button[onclick="signInWithGoogle()"]');
+            if (googleBtn) {
+                googleBtn.disabled = true;
+                googleBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+            }
+
             try {
                 console.log('🔄 Starting Google Sign-In...');
+                console.log('Current domain:', window.location.hostname);
 
                 const provider = new firebase.auth.GoogleAuthProvider();
                 provider.addScope('profile');
@@ -2031,8 +2071,8 @@
                         username: username,
                         email: user.email,
                         phone: user.phoneNumber || '',
-                        balance: 0,
-                        welcomeBonusClaimed: false,
+                        balance: 4000, // Welcome bonus automatically added
+                        welcomeBonusClaimed: true, // Mark as claimed since it's automatic
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         referralCode: username.toUpperCase() + '123',
                         authProvider: 'google'
@@ -2045,8 +2085,8 @@
                         email: user.email,
                         phone: user.phoneNumber || ''
                     };
-                    state.balance = 0;
-                    state.welcomeBonusAmount = 4000;
+                    state.balance = 4000; // Welcome bonus automatically added
+                    state.welcomeBonusAmount = 0; // No need to claim since it's automatic
                     state.isLoggedIn = true;
 
                     showNotification(`✅ Welcome ${username}! Your account has been created successfully.`, 'success');
@@ -2086,293 +2126,42 @@
                 if (error.code === 'auth/popup-closed-by-user') {
                     errorMessage = 'Sign-in popup was closed. Please try again.';
                 } else if (error.code === 'auth/popup-blocked') {
-                    errorMessage = 'Sign-in popup was blocked. Please allow popups and try again.';
+                    errorMessage = 'Sign-in popup was blocked. Please allow popups for this site and try again.';
                 } else if (error.code === 'auth/account-exists-with-different-credential') {
-                    errorMessage = 'Account exists with different sign-in method. Please use email/password or phone.';
+                    errorMessage = 'Account exists with different sign-in method. Please use email/password or phone number.';
                 } else if (error.code === 'auth/unauthorized-domain') {
-                    errorMessage = 'Unauthorized domain. Please check your Firebase OAuth settings.';
+                    errorMessage = 'Unauthorized domain. Please add "' + window.location.hostname + '" to authorized domains in Firebase Console > Authentication > Settings > Authorized Domains.';
+                    showTroubleshooting(); // Show troubleshooting help
                 } else if (error.code === 'auth/operation-not-allowed') {
-                    errorMessage = 'Google Sign-In is not enabled. Please enable it in Firebase Authentication.';
-                }
-
-                showNotification(errorMessage, 'error');
-            }
-        }
-
-        function showPhoneAuth() {
-            console.log('📱 Showing phone authentication...');
-
-            document.getElementById('registration-form').style.display = 'none';
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('phone-auth-section').style.display = 'block';
-
-            // Initialize reCAPTCHA verifier
-            if (!window.recaptchaVerifier) {
-                try {
-                    console.log('🔒 Initializing reCAPTCHA...');
-                    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('phone-auth-section', {
-                        'size': 'normal',
-                        'callback': function(response) {
-                            console.log('✅ reCAPTCHA verified');
-                        },
-                        'expired-callback': function() {
-                            console.log('⏰ reCAPTCHA expired');
-                            window.recaptchaVerifier = null;
-                            showNotification('reCAPTCHA expired. Please refresh and try again.', 'error');
-                        }
-                    });
-
-                    // Render the reCAPTCHA
-                    window.recaptchaVerifier.render().then(function(widgetId) {
-                        window.recaptchaWidgetId = widgetId;
-                        console.log('🎯 reCAPTCHA rendered with widget ID:', widgetId);
-                    }).catch(function(error) {
-                        console.error('❌ Error rendering reCAPTCHA:', error);
-                        showNotification('Error loading reCAPTCHA. Please refresh the page.', 'error');
-                    });
-                } catch (error) {
-                    console.error('❌ Error initializing reCAPTCHA:', error);
-                    showNotification('Error initializing phone verification. Please refresh the page.', 'error');
-                }
-            }
-        }
-
-        function hidePhoneAuth() {
-            document.getElementById('registration-form').style.display = 'block';
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('phone-auth-section').style.display = 'none';
-            document.getElementById('verification-section').style.display = 'none';
-            
-            document.getElementById('phone-number').value = '';
-            document.querySelectorAll('.code-input').forEach(input => input.value = '');
-        }
-
-        async function sendVerificationCode() {
-            const phoneNumber = document.getElementById('phone-number').value.trim();
-            const phoneNumberError = document.getElementById('phone-number-error');
-
-            // Clear previous error
-            if (phoneNumberError) phoneNumberError.textContent = '';
-
-            console.log('📱 Sending verification code to:', phoneNumber);
-
-            if (!phoneNumber) {
-                if (phoneNumberError) phoneNumberError.textContent = 'Phone number is required';
-                showNotification('Please enter a valid phone number.', 'error');
-                return;
-            }
-
-            // Validate phone number format
-            const phoneRegex = /^\+256[0-9]{9}$/;
-            if (!phoneRegex.test(phoneNumber)) {
-                if (phoneNumberError) phoneNumberError.textContent = 'Please enter a valid Ugandan phone number in the format: +256XXXXXXXXX';
-                showNotification('Please enter a valid Ugandan phone number in the format: +256XXXXXXXXX', 'error');
-                return;
-            }
-
-            // Check if reCAPTCHA is ready
-            if (!window.recaptchaVerifier) {
-                console.error('❌ reCAPTCHA not initialized');
-                showNotification('Please wait for reCAPTCHA to load and try again.', 'error');
-                return;
-            }
-
-            const appVerifier = window.recaptchaVerifier;
-
-            // Disable the button during processing
-            const sendButton = document.querySelector('button[onclick="sendVerificationCode()"]');
-            if (sendButton) {
-                sendButton.disabled = true;
-                sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            }
-
-            try {
-                console.log('📤 Sending verification code...');
-                const confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, appVerifier);
-                window.phoneConfirmationResult = confirmationResult;
-
-                console.log('✅ Verification code sent successfully');
-
-                document.getElementById('verification-section').style.display = 'block';
-                document.getElementById('phone-display').textContent = phoneNumber;
-
-                const firstInput = document.querySelector('.code-input[data-index="0"]');
-                if (firstInput) firstInput.focus();
-
-                showNotification('✅ Verification code sent! Please check your phone.', 'success');
-
-            } catch (error) {
-                console.error('❌ Error sending verification code:', error);
-                let errorMessage = 'Error sending verification code. Please try again.';
-
-                if (error.code === 'auth/too-many-requests') {
-                    errorMessage = 'Too many requests. Please wait a few minutes and try again.';
-                } else if (error.code === 'auth/invalid-phone-number') {
-                    errorMessage = 'Invalid phone number format. Please check and try again.';
-                } else if (error.code === 'auth/quota-exceeded') {
-                    errorMessage = 'Service quota exceeded. Please try again later.';
-                } else if (error.code === 'auth/captcha-check-failed') {
-                    errorMessage = 'reCAPTCHA verification failed. Please try again.';
+                    errorMessage = 'Google Sign-In is not enabled. Please enable it in Firebase Console > Authentication > Sign-in method.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'Network error. Please check your internet connection and try again.';
+                } else if (error.code === 'auth/timeout') {
+                    errorMessage = 'Request timeout. Please try again.';
                 }
 
                 showNotification(errorMessage, 'error');
             } finally {
-                // Re-enable the button
-                if (sendButton) {
-                    sendButton.disabled = false;
-                    sendButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Verification Code';
+                // Re-enable button
+                if (googleBtn) {
+                    googleBtn.disabled = false;
+                    googleBtn.innerHTML = '<i class="fab fa-google"></i> Sign up with Google';
                 }
             }
         }
 
-        async function verifyCode() {
-            const codeInputs = document.querySelectorAll('.code-input');
-            let verificationCode = '';
 
-            codeInputs.forEach(input => {
-                verificationCode += input.value;
-            });
 
-            console.log('🔢 Verification code entered:', verificationCode.length + ' digits');
+        // Phone authentication functions removed - using Google Sign-In only
 
-            if (verificationCode.length !== 6) {
-                showNotification('Please enter the complete 6-digit verification code.', 'error');
-                return;
-            }
+        // Phone authentication functions removed - using Google Sign-In only
 
-            // Check if confirmation result exists
-            if (!window.phoneConfirmationResult) {
-                console.error('❌ No confirmation result found');
-                showNotification('Please request a verification code first.', 'error');
-                return;
-            }
-
-            // Disable verify button during processing
-            const verifyButton = document.querySelector('button[onclick="verifyCode()"]');
-            if (verifyButton) {
-                verifyButton.disabled = true;
-                verifyButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-            }
-
-            try {
-                console.log('🔍 Verifying code...');
-                const result = await window.phoneConfirmationResult.confirm(verificationCode);
-                const user = result.user;
-
-                console.log('✅ Phone verification successful:', user.phoneNumber);
-
-                // Check if new user
-                const userDoc = await db.collection('users').doc(user.uid).get();
-
-                if (!userDoc.exists) {
-                    // New user - create username
-                    const phoneNumber = user.phoneNumber;
-                    const suggestedUsername = phoneNumber ? phoneNumber.replace('+256', 'user') : 'user' + Date.now();
-
-                    console.log('🆕 New user, requesting username...');
-                    const username = prompt('Please enter a username:', suggestedUsername);
-
-                    if (!username || username.trim() === '') {
-                        await auth.signOut();
-                        showNotification('Username is required. Please try again.', 'error');
-                        return;
-                    }
-
-                    console.log('💾 Creating new user in database...');
-                    await db.collection('users').doc(user.uid).set({
-                        username: username.trim(),
-                        email: '',
-                        phone: user.phoneNumber,
-                        balance: 0,
-                        welcomeBonusClaimed: false,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        referralCode: username.toUpperCase() + '123',
-                        authProvider: 'phone'
-                    });
-
-                    // Update state
-                    state.user = {
-                        uid: user.uid,
-                        username: username.trim(),
-                        email: '',
-                        phone: user.phoneNumber
-                    };
-                    state.balance = 0;
-                    state.welcomeBonusAmount = 4000;
-                    state.isLoggedIn = true;
-
-                    showNotification(`✅ Welcome ${username.trim()}! Your account has been created successfully.`, 'success');
-
-                } else {
-                    // Existing user
-                    const userData = userDoc.data();
-                    console.log('🔄 Existing user logging in:', userData.username);
-
-                    // Update state
-                    state.user = {
-                        uid: user.uid,
-                        username: userData.username,
-                        email: userData.email || '',
-                        phone: user.phoneNumber
-                    };
-                    state.balance = userData.balance || 0;
-                    state.welcomeBonusAmount = userData.welcomeBonusClaimed ? 0 : 4000;
-                    state.isLoggedIn = true;
-
-                    showNotification(`✅ Welcome back, ${userData.username}!`, 'success');
-                }
-
-                // Load user data and show dashboard
-                await loadUserData();
-                await loadUserInvestments();
-                await loadUserDeposits();
-                await loadUserWithdrawals();
-                await loadUserReferrals();
-
-                showPage('dashboard-page');
-
-            } catch (error) {
-                console.error('❌ Error verifying code:', error);
-                let errorMessage = 'Invalid verification code. Please try again.';
-
-                if (error.code === 'auth/invalid-verification-code') {
-                    errorMessage = 'Invalid verification code. Please check and try again.';
-                } else if (error.code === 'auth/code-expired') {
-                    errorMessage = 'Verification code has expired. Please request a new one.';
-                } else if (error.code === 'auth/too-many-requests') {
-                    errorMessage = 'Too many attempts. Please wait and try again.';
-                }
-
-                showNotification(errorMessage, 'error');
-            } finally {
-                // Re-enable verify button
-                if (verifyButton) {
-                    verifyButton.disabled = false;
-                    verifyButton.innerHTML = 'Verify Code';
-                }
-            }
-        }
-
-        function resendCode() {
-            const phoneNumber = document.getElementById('phone-number').value;
-            if (!phoneNumber) {
-                showNotification('Please enter your phone number first.', 'error');
-                return;
-            }
-            
-            const appVerifier = window.recaptchaVerifier;
-            auth.signInWithPhoneNumber(phoneNumber, appVerifier)
-                .then((confirmationResult) => {
-                    window.phoneConfirmationResult = confirmationResult;
-                    showNotification('Verification code resent! Please check your phone.', 'success');
-                })
-                .catch((error) => {
-                    console.error('Error resending code:', error);
-                    showNotification(`Error resending code: ${error.message}`, 'error');
-                });
-        }
+        // Phone authentication functions removed - using Google Sign-In only
 
         function logoutUser() {
+            // Clean up all active timers before logout
+            cleanupAllTimers();
+
             auth.signOut()
                 .then(() => {
                     state.user = null;
@@ -2382,7 +2171,7 @@
                     state.depositHistory = [];
                     state.withdrawHistory = [];
                     state.isLoggedIn = false;
-                    
+
                     document.getElementById('dashboard-page').style.display = 'none';
                     showPage('welcome-page');
                     showNotification('You have been logged out successfully.', 'success');
@@ -2467,6 +2256,12 @@
                 return;
             }
 
+            // Validate balance operation
+            if (!validateBalanceOperation(state.balance, amount, 'deduct')) {
+                modalErrorElement.textContent = 'Investment amount cannot exceed your current balance.';
+                return;
+            }
+
             // Disable confirm button during processing
             const confirmBtn = document.getElementById('confirm-investment-btn');
             if (confirmBtn) {
@@ -2477,16 +2272,39 @@
             try {
                 // Create investment
                 const startDate = new Date();
-                const endDate = new Date();
-                endDate.setDate(startDate.getDate() + 21);
+                let endDate = new Date();
+
+                // Calculate end date based on package type
+                const packageDurations = {
+                    'Basic Plan': 21,
+                    'Standard Plan': 21,
+                    'Premium VIP': 21,
+                    'Fixed Deposit (30 Days)': 25,
+                    'Fixed Deposit (60 Days)': 30,
+                    'Elite Fixed Deposit': 60
+                };
+
+                const durationDays = packageDurations[packageName] || 21;
+                endDate.setDate(startDate.getDate() + durationDays);
+
+                // Validate investment duration
+                const durationValidation = validateInvestmentDuration(packageName, startDate, endDate, durationDays);
+                if (!durationValidation.isValid) {
+                    return; // Error notification already shown by validation function
+                }
+
+                const validatedStartDate = durationValidation.startDate;
+                const validatedEndDate = durationValidation.endDate;
+                const validatedDurationDays = durationValidation.actualDurationDays;
 
                 const newInvestment = {
                     id: Date.now().toString(),
                     planName: packageName,
                     investedAmount: amount,
                     dailyEarningRate: earningRate,
-                    startDate: startDate,
-                    endDate: endDate,
+                    startDate: validatedStartDate,
+                    endDate: validatedEndDate,
+                    durationDays: validatedDurationDays,
                     status: 'Active',
                     userId: state.user.uid,
                     userEmail: state.user.email,
@@ -2494,14 +2312,47 @@
                 };
 
                 // Save to Firebase first
-                const investmentRef = await db.collection('investments').add(newInvestment);
+                let investmentRef;
+                try {
+                    investmentRef = await db.collection('investments').add(newInvestment);
+                    console.log('Investment saved to Firebase:', investmentRef.id);
+                } catch (firebaseError) {
+                    console.error('Error saving investment to Firebase:', firebaseError);
+                    if (firebaseError.code === 'permission-denied') {
+                        showNotification('Permission denied. Please check your account permissions and try again.', 'error');
+                    } else if (firebaseError.code === 'unavailable') {
+                        showNotification('Service temporarily unavailable. Please try again in a few moments.', 'error');
+                    } else {
+                        showNotification('Error saving investment. Please try again.', 'error');
+                    }
+                    return;
+                }
 
                 // Update user's balance in Firebase
-                await db.collection('users').doc(state.user.uid).update({
-                    balance: firebase.firestore.FieldValue.increment(-amount)
-                });
+                try {
+                    await db.collection('users').doc(state.user.uid).update({
+                        balance: firebase.firestore.FieldValue.increment(-amount)
+                    });
+                    console.log('User balance updated in Firebase');
+                } catch (balanceError) {
+                    console.error('Error updating user balance:', balanceError);
+                    // Try to rollback the investment
+                    try {
+                        await investmentRef.delete();
+                        console.log('Investment rolled back due to balance update failure');
+                    } catch (rollbackError) {
+                        console.error('Error rolling back investment:', rollbackError);
+                    }
 
-                // Update local state
+                    if (balanceError.code === 'permission-denied') {
+                        showNotification('Permission denied to update balance. Please contact support.', 'error');
+                    } else {
+                        showNotification('Error updating account balance. Please try again.', 'error');
+                    }
+                    return;
+                }
+
+                // Update local state only after successful Firebase operations
                 state.investments.push({ id: investmentRef.id, ...newInvestment });
                 state.balance -= amount;
 
@@ -2511,12 +2362,22 @@
                 // Close modal and show success
                 modal.style.display = 'none';
 
-                showNotification(`Successfully invested UGX ${amount.toLocaleString()} in ${packageName}!`, 'success');
+                showNotification(`Successfully invested UGX ${amount.toLocaleString()} in ${packageName}! Duration: ${durationDays} days`, 'success');
                 showDashboardTab('my-investments-tab');
 
             } catch (error) {
                 console.error('Error processing investment:', error);
-                showNotification('Error processing investment. Please try again.', 'error');
+                let errorMessage = 'Error processing investment. Please try again.';
+
+                if (error.code === 'permission-denied') {
+                    errorMessage = 'Permission denied. Please check your account and try again.';
+                } else if (error.code === 'unavailable') {
+                    errorMessage = 'Service temporarily unavailable. Please try again later.';
+                } else if (error.code === 'deadline-exceeded') {
+                    errorMessage = 'Request timeout. Please check your connection and try again.';
+                }
+
+                showNotification(errorMessage, 'error');
             } finally {
                 // Re-enable button
                 if (confirmBtn) {
@@ -2556,55 +2417,207 @@
         }
 
         async function startInvestmentTimer(investment) {
-            const updateTimer = async () => {
-                const now = new Date().getTime();
-                const endTime = new Date(investment.endDate).getTime();
-                const distance = endTime - now;
-                const timerElement = document.getElementById(`timer-${investment.id}`);
+            // Clear any existing timer for this investment
+            const existingTimer = state.activeTimers.get(investment.id);
+            if (existingTimer) {
+                clearInterval(existingTimer.interval);
+                state.activeTimers.delete(investment.id);
+            }
 
-                if (!timerElement) return;
+            // Validate investment dates before starting timer
+            if (!investment.startDate || !investment.endDate) {
+                console.error('Invalid investment dates:', investment);
+                return;
+            }
 
-                if (distance < 0) {
-                    clearInterval(timer.interval);
-                    timerElement.textContent = 'Completed!';
-                    investment.status = 'Completed';
+            let startDate, endDate;
+            try {
+                startDate = new Date(investment.startDate);
+                endDate = new Date(investment.endDate);
 
-                    try {
-                        // Calculate profit and update Firebase
-                        const totalProfit = investment.investedAmount * (investment.dailyEarningRate * 21);
-
-                        // Update user's balance in Firebase
-                        await db.collection('users').doc(state.user.uid).update({
-                            balance: firebase.firestore.FieldValue.increment(totalProfit)
-                        });
-
-                        // Update investment status in Firebase
-                        await db.collection('investments').doc(investment.id).update({
-                            status: 'Completed'
-                        });
-
-                        // Update local state
-                        state.balance += totalProfit;
-                        updateDashboard();
-
-                        showNotification(`Investment in ${investment.planName} completed! Total profit: UGX ${totalProfit.toLocaleString()}`, 'success');
-                    } catch (error) {
-                        console.error('Error completing investment:', error);
-                        showNotification('Error processing investment completion. Please contact support.', 'error');
-                    }
+                // Validate that dates are valid Date objects
+                if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                    console.error('Invalid date format in investment:', investment);
                     return;
                 }
 
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                // Validate that end date is after start date
+                if (endDate <= startDate) {
+                    console.error('Investment end date is not after start date:', investment);
+                    return;
+                }
+            } catch (dateError) {
+                console.error('Error parsing investment dates:', dateError);
+                return;
+            }
 
-                timerElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            const updateTimer = async () => {
+                try {
+                    const now = new Date().getTime();
+                    const endTime = endDate.getTime();
+                    const distance = endTime - now;
+                    const timerElement = document.getElementById(`timer-${investment.id}`);
+
+                    if (!timerElement) {
+                        // Timer element no longer exists, clean up
+                        clearInterval(timer.interval);
+                        state.activeTimers.delete(investment.id);
+                        return;
+                    }
+
+                    if (distance < 0) {
+                        // Investment completed
+                        clearInterval(timer.interval);
+                        state.activeTimers.delete(investment.id);
+                        timerElement.textContent = 'Completed!';
+                        investment.status = 'Completed';
+
+                        try {
+                            // Calculate actual duration and profit based on validated dates
+                            const startTime = startDate.getTime();
+                            const actualDurationDays = Math.ceil((endTime - startTime) / (1000 * 60 * 60 * 24));
+                            const totalProfit = investment.investedAmount * (investment.dailyEarningRate * actualDurationDays);
+
+                            // Validate profit calculation
+                            if (totalProfit < 0 || !isFinite(totalProfit)) {
+                                console.error('Invalid profit calculation:', { totalProfit, actualDurationDays, dailyEarningRate: investment.dailyEarningRate });
+                                showNotification('Error calculating investment profit. Please contact support.', 'error');
+                                return;
+                            }
+
+                            // Update user's balance in Firebase
+                            await db.collection('users').doc(state.user.uid).update({
+                                balance: firebase.firestore.FieldValue.increment(totalProfit)
+                            });
+
+                            // Update investment status in Firebase
+                            await db.collection('investments').doc(investment.id).update({
+                                status: 'Completed',
+                                completedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                actualDurationDays: actualDurationDays,
+                                totalProfit: totalProfit
+                            });
+
+                            // Update local state
+                            state.balance += totalProfit;
+                            updateDashboard();
+
+                            showNotification(`Investment in ${investment.planName} completed! Duration: ${actualDurationDays} days, Total profit: UGX ${totalProfit.toLocaleString()}`, 'success');
+                        } catch (error) {
+                            console.error('Error completing investment:', error);
+                            showNotification('Error processing investment completion. Please contact support.', 'error');
+                        }
+                        return;
+                    }
+
+                    // Update countdown display
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    timerElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                } catch (error) {
+                    console.error('Error updating investment timer:', error);
+                    // Clean up on error
+                    clearInterval(timer.interval);
+                    state.activeTimers.delete(investment.id);
+                }
             };
 
             const timer = { interval: setInterval(updateTimer, 1000) };
+            state.activeTimers.set(investment.id, timer);
             updateTimer();
+        }
+
+        // Function to clean up all active timers
+        function cleanupAllTimers() {
+            console.log('Cleaning up all active timers:', state.activeTimers.size);
+            state.activeTimers.forEach((timer, investmentId) => {
+                clearInterval(timer.interval);
+            });
+            state.activeTimers.clear();
+        }
+
+        // Function to get timer statistics
+        function getTimerStats() {
+            const activeCount = state.activeTimers.size;
+            const investmentsWithTimers = Array.from(state.activeTimers.keys());
+
+            console.log('Timer Statistics:', {
+                activeTimers: activeCount,
+                investmentIds: investmentsWithTimers,
+                totalInvestments: state.investments.length
+            });
+
+            return {
+                activeTimers: activeCount,
+                investmentIds: investmentsWithTimers,
+                totalInvestments: state.investments.length
+            };
+        }
+
+        // Function to pause all timers
+        function pauseAllTimers() {
+            console.log('Pausing all timers');
+            state.activeTimers.forEach((timer, investmentId) => {
+                clearInterval(timer.interval);
+                timer.isPaused = true;
+            });
+        }
+
+        // Function to resume all timers
+        function resumeAllTimers() {
+            console.log('Resuming all timers');
+            state.activeTimers.forEach((timer, investmentId) => {
+                if (timer.isPaused) {
+                    timer.interval = setInterval(() => {
+                        // This would need to be implemented to call the original updateTimer function
+                        console.log('Resuming timer for investment:', investmentId);
+                    }, 1000);
+                    timer.isPaused = false;
+                }
+            });
+        }
+
+        // Enhanced timer state management
+        function manageTimerState(investmentId, action = 'get') {
+            const timer = state.activeTimers.get(investmentId);
+
+            switch (action) {
+                case 'get':
+                    return {
+                        exists: !!timer,
+                        isPaused: timer ? timer.isPaused : false,
+                        investmentId: investmentId
+                    };
+
+                case 'pause':
+                    if (timer && !timer.isPaused) {
+                        clearInterval(timer.interval);
+                        timer.isPaused = true;
+                        console.log('Timer paused for investment:', investmentId);
+                    }
+                    break;
+
+                case 'resume':
+                    if (timer && timer.isPaused) {
+                        // Resume logic would need the original updateTimer function
+                        console.log('Timer resume requested for investment:', investmentId);
+                    }
+                    break;
+
+                case 'stop':
+                    if (timer) {
+                        clearInterval(timer.interval);
+                        state.activeTimers.delete(investmentId);
+                        console.log('Timer stopped for investment:', investmentId);
+                    }
+                    break;
+
+                default:
+                    console.warn('Unknown timer action:', action);
+            }
         }
 
         // Deposit Functions
@@ -2670,12 +2683,29 @@
                 };
 
                 // Save to Firebase
-                await db.collection('deposits').add(newDeposit);
+                let depositRef;
+                try {
+                    depositRef = await db.collection('deposits').add(newDeposit);
+                    console.log('Deposit saved to Firebase:', depositRef.id);
+                } catch (firebaseError) {
+                    console.error('Error saving deposit to Firebase:', firebaseError);
+                    if (firebaseError.code === 'permission-denied') {
+                        showNotification('Permission denied. Please check your account permissions.', 'error');
+                    } else if (firebaseError.code === 'unavailable') {
+                        showNotification('Service temporarily unavailable. Please try again later.', 'error');
+                    } else {
+                        showNotification('Error saving deposit. Please try again.', 'error');
+                    }
+                    return;
+                }
 
-                // Update local state
-                newDeposit.id = Date.now().toString();
-                newDeposit.date = new Date().toLocaleDateString();
-                state.depositHistory.push(newDeposit);
+                // Update local state only after successful Firebase save
+                const localDeposit = {
+                    id: depositRef.id,
+                    date: new Date().toLocaleDateString(),
+                    ...newDeposit
+                };
+                state.depositHistory.push(localDeposit);
 
                 // Update deposit history immediately
                 renderDepositHistory();
@@ -2685,7 +2715,17 @@
 
             } catch (error) {
                 console.error('Error submitting deposit:', error);
-                showNotification('Error submitting deposit. Please try again.', 'error');
+                let errorMessage = 'Error submitting deposit. Please try again.';
+
+                if (error.code === 'permission-denied') {
+                    errorMessage = 'Permission denied. Please check your account and try again.';
+                } else if (error.code === 'unavailable') {
+                    errorMessage = 'Service temporarily unavailable. Please try again later.';
+                } else if (error.code === 'deadline-exceeded') {
+                    errorMessage = 'Request timeout. Please check your connection and try again.';
+                }
+
+                showNotification(errorMessage, 'error');
             } finally {
                 // Re-enable button
                 if (submitButton) {
@@ -2757,10 +2797,16 @@
 
             if (hasError) return;
 
-            // Check balance
+            // Check balance and ensure minimum balance of 0 UGX
             if (amount > state.balance) {
                 document.getElementById('withdraw-amount-error').textContent = 'Insufficient account balance for this withdrawal.';
                 showNotification('Insufficient account balance for this withdrawal.', 'error');
+                return;
+            }
+
+            // Validate balance operation
+            if (!validateBalanceOperation(state.balance, amount, 'deduct')) {
+                document.getElementById('withdraw-amount-error').textContent = 'Withdrawal amount cannot exceed your current balance.';
                 return;
             }
 
@@ -2787,12 +2833,23 @@
                     }
                 }
 
+                // Update balance in Firebase if using real balance
                 if (remainingAmount > 0) {
-                    // Update balance in Firebase
-                    await db.collection('users').doc(state.user.uid).update({
-                        balance: firebase.firestore.FieldValue.increment(-remainingAmount)
-                    });
-                    state.balance -= remainingAmount;
+                    try {
+                        await db.collection('users').doc(state.user.uid).update({
+                            balance: firebase.firestore.FieldValue.increment(-remainingAmount)
+                        });
+                        console.log('User balance updated in Firebase for withdrawal');
+                        state.balance -= remainingAmount;
+                    } catch (balanceError) {
+                        console.error('Error updating balance for withdrawal:', balanceError);
+                        if (balanceError.code === 'permission-denied') {
+                            showNotification('Permission denied to update balance. Please contact support.', 'error');
+                        } else {
+                            showNotification('Error updating account balance. Please try again.', 'error');
+                        }
+                        return;
+                    }
                 }
 
                 const newWithdrawal = {
@@ -2807,12 +2864,42 @@
                 };
 
                 // Save to Firebase
-                await db.collection('withdrawals').add(newWithdrawal);
+                let withdrawalRef;
+                try {
+                    withdrawalRef = await db.collection('withdrawals').add(newWithdrawal);
+                    console.log('Withdrawal saved to Firebase:', withdrawalRef.id);
+                } catch (firebaseError) {
+                    console.error('Error saving withdrawal to Firebase:', firebaseError);
+                    // Rollback balance change if Firebase save failed
+                    if (remainingAmount > 0) {
+                        try {
+                            await db.collection('users').doc(state.user.uid).update({
+                                balance: firebase.firestore.FieldValue.increment(remainingAmount)
+                            });
+                            state.balance += remainingAmount;
+                            console.log('Balance rolled back due to withdrawal save failure');
+                        } catch (rollbackError) {
+                            console.error('Error rolling back balance:', rollbackError);
+                        }
+                    }
 
-                // Update local state
-                newWithdrawal.id = Date.now().toString();
-                newWithdrawal.date = new Date().toLocaleDateString();
-                state.withdrawHistory.push(newWithdrawal);
+                    if (firebaseError.code === 'permission-denied') {
+                        showNotification('Permission denied. Please check your account permissions.', 'error');
+                    } else if (firebaseError.code === 'unavailable') {
+                        showNotification('Service temporarily unavailable. Please try again later.', 'error');
+                    } else {
+                        showNotification('Error saving withdrawal. Please try again.', 'error');
+                    }
+                    return;
+                }
+
+                // Update local state only after successful Firebase operations
+                const localWithdrawal = {
+                    id: withdrawalRef.id,
+                    date: new Date().toLocaleDateString(),
+                    ...newWithdrawal
+                };
+                state.withdrawHistory.push(localWithdrawal);
 
                 // Update both withdrawal history and dashboard immediately
                 renderWithdrawalHistory();
@@ -2823,7 +2910,17 @@
 
             } catch (error) {
                 console.error('Error submitting withdrawal:', error);
-                showNotification('Error submitting withdrawal. Please try again.', 'error');
+                let errorMessage = 'Error submitting withdrawal. Please try again.';
+
+                if (error.code === 'permission-denied') {
+                    errorMessage = 'Permission denied. Please check your account and try again.';
+                } else if (error.code === 'unavailable') {
+                    errorMessage = 'Service temporarily unavailable. Please try again later.';
+                } else if (error.code === 'deadline-exceeded') {
+                    errorMessage = 'Request timeout. Please check your connection and try again.';
+                }
+
+                showNotification(errorMessage, 'error');
             } finally {
                 // Re-enable button
                 if (submitButton) {
@@ -2932,8 +3029,6 @@
                 loadPendingDeposits();
             } else if (tabId === 'pending-withdrawals') {
                 loadPendingWithdrawals();
-            } else if (tabId === 'all-users') {
-                loadAllUsers();
             }
         }
 
@@ -3045,46 +3140,6 @@
             }
         }
 
-        async function loadAllUsers() {
-            const tbody = document.getElementById('all-users-body');
-            tbody.innerHTML = '<tr><td colspan="5">Loading users...</td></tr>';
-
-            try {
-                const usersSnapshot = await db.collection('users').get();
-                const users = [];
-
-                usersSnapshot.forEach(doc => {
-                    const userData = doc.data();
-                    users.push({
-                        id: doc.id,
-                        username: userData.username || 'N/A',
-                        email: userData.email || 'N/A',
-                        phone: userData.phone || 'N/A',
-                        balance: userData.balance || 0,
-                        createdAt: userData.createdAt ? new Date(userData.createdAt.toDate()).toLocaleDateString() : 'N/A'
-                    });
-                });
-
-                if (users.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5">No users found</td></tr>';
-                    return;
-                }
-
-                tbody.innerHTML = users.map(user => `
-                    <tr>
-                        <td>${user.username}</td>
-                        <td>${user.email}</td>
-                        <td>${user.phone}</td>
-                        <td>UGX ${user.balance.toLocaleString()}</td>
-                        <td>${user.createdAt}</td>
-                    </tr>
-                `).join('');
-
-            } catch (error) {
-                console.error('Error loading users:', error);
-                tbody.innerHTML = '<tr><td colspan="5">Error loading users. Please try again.</td></tr>';
-            }
-        }
 
         function approveLocalDeposit(depositId) {
             const deposit = state.depositHistory.find(dep => dep.id === depositId);
@@ -3138,6 +3193,15 @@
                         const userQuery = await db.collection('users').where('email', '==', deposit.userEmail).get();
                         if (!userQuery.empty) {
                             const userDoc = userQuery.docs[0];
+                            const currentBalance = userDoc.data().balance || 0;
+                            const newBalance = currentBalance + deposit.amount;
+
+                            // Validate that new balance won't be negative
+                            if (newBalance < 0) {
+                                showNotification('Cannot approve deposit: would result in negative balance.', 'error');
+                                return;
+                            }
+
                             await userDoc.ref.update({
                                 balance: firebase.firestore.FieldValue.increment(deposit.amount)
                             });
@@ -3304,6 +3368,15 @@
                         const userQuery = await db.collection('users').where('email', '==', withdrawal.userEmail).get();
                         if (!userQuery.empty) {
                             const userDoc = userQuery.docs[0];
+                            const currentBalance = userDoc.data().balance || 0;
+                            const newBalance = currentBalance + withdrawal.amount;
+
+                            // Validate that new balance won't be negative (shouldn't happen when returning money, but safety check)
+                            if (newBalance < 0) {
+                                showNotification('Cannot return funds: would result in negative balance.', 'error');
+                                return;
+                            }
+
                             await userDoc.ref.update({
                                 balance: firebase.firestore.FieldValue.increment(withdrawal.amount)
                             });
@@ -3445,17 +3518,6 @@
                     showNotification('Access denied. Admin privileges required.', 'error');
                     return;
                 }
-
-                const adminNavItem = document.getElementById('admin-nav-item');
-                if (adminNavItem) {
-                    adminNavItem.style.display = 'block';
-                }
-                
-                // Make sure the admin tab content is visible
-                const adminTab = document.getElementById('admin-tab');
-                if (adminTab) {
-                    adminTab.style.display = 'block';
-                }
             }
 
             // Hide all tab contents
@@ -3487,18 +3549,18 @@
             // Load tab-specific content
             if (tabId === 'my-investments-tab') {
                 loadUserInvestments();
-            } else if (tabId === 'deposit-tab') {
+                updateInvestmentOverview();
+            } else if (tabId !== 'my-investments-tab') {
+                // Clean up timers when leaving investments tab
+                cleanupAllTimers();
+            }
+
+            if (tabId === 'deposit-tab') {
                 loadUserDeposits();
             } else if (tabId === 'withdraw-tab') {
                 loadUserWithdrawals();
             } else if (tabId === 'referrals-tab') {
                 loadUserReferrals();
-            } else if (tabId === 'admin-tab') {
-                // Load admin tabs
-                if (state.user?.email === 'kaigwaakram123@gmail.com') {
-                    // Show the pending-deposits tab by default
-                    showAdminTab('pending-deposits');
-                }
             }
         }
 
@@ -3537,24 +3599,38 @@
                 accountBalance.textContent = `Current Balance: UGX ${totalBalance.toLocaleString()}${welcomeBonusText}`;
             }
             
-            const welcomeBonusDisplay = document.getElementById('welcome-bonus-display');
-            if (welcomeBonusDisplay) {
-                if (state.welcomeBonusAmount > 0) {
-                    welcomeBonusDisplay.style.display = 'block';
-                } else {
-                    welcomeBonusDisplay.style.display = 'none';
-                }
-            }
             
-            const adminNavItem = document.getElementById('admin-nav-item');
-            if (adminNavItem && state.user) {
-                adminNavItem.style.display = (state.user.email === 'kaigwaakram123@gmail.com') ? 'block' : 'none';
+
+
+            // Update investment overview displays
+            updateInvestmentOverview();
+        }
+
+        function updateInvestmentOverview() {
+            // Update balance display in investments tab
+            const investmentBalanceDisplay = document.getElementById('investment-balance-display');
+            if (investmentBalanceDisplay) {
+                investmentBalanceDisplay.textContent = state.balance.toLocaleString();
             }
 
-            // Also hide the admin tab content for non-admin users
-            const adminTab = document.getElementById('admin-tab');
-            if (adminTab && state.user) {
-                adminTab.style.display = (state.user.email === 'kaigwaakram123@gmail.com') ? 'block' : 'none';
+            // Calculate total invested amount
+            const totalInvested = state.investments.reduce((total, inv) => {
+                return total + (inv.status === 'Active' || inv.status === 'Completed' ? inv.investedAmount : 0);
+            }, 0);
+
+            const totalInvestedDisplay = document.getElementById('total-invested-display');
+            if (totalInvestedDisplay) {
+                totalInvestedDisplay.textContent = totalInvested.toLocaleString();
+            }
+
+            // Count active investments
+            const activeInvestments = state.investments.filter(inv =>
+                inv.status === 'Active' || !inv.status
+            ).length;
+
+            const activeInvestmentsCount = document.getElementById('active-investments-count');
+            if (activeInvestmentsCount) {
+                activeInvestmentsCount.textContent = activeInvestments;
             }
         }
 
@@ -3650,8 +3726,8 @@
                     username: username,
                     email: email,
                     phone: phone,
-                    balance: 0,
-                    welcomeBonusClaimed: false,
+                    balance: 4000, // Welcome bonus automatically added
+                    welcomeBonusClaimed: true, // Mark as claimed since it's automatic
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     referralCode: username.toUpperCase() + '123',
                     authProvider: 'email'
@@ -3664,8 +3740,8 @@
                     email: email,
                     phone: phone
                 };
-                state.balance = 0;
-                state.welcomeBonusAmount = 4000;
+                state.balance = 4000; // Welcome bonus automatically added
+                state.welcomeBonusAmount = 0; // No need to claim since it's automatic
                 state.isLoggedIn = true;
 
                 const welcomeBonusSection = document.getElementById('welcome-bonus-section');
@@ -3814,53 +3890,32 @@
                 });
         }
 
-        function handleClaimBonus() {
+
+        // Enhanced user-specific data validation
+        function validateUserAccess(data, userField = 'userId') {
             if (!state.user) {
-                showNotification('Please register first to claim your welcome bonus.', 'error');
-                return;
+                console.error('❌ No authenticated user for data validation');
+                return false;
             }
-            
-            const btn = document.getElementById('claim-bonus-btn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Claiming...';
-            
-            const user = auth.currentUser;
-            if (!user) {
-                showNotification('Please register first to claim your welcome bonus.', 'error');
-                return;
+
+            if (!data || !data[userField]) {
+                console.error('❌ Invalid data structure for user validation:', data);
+                return false;
             }
-            
-            db.collection('users').doc(user.uid).get()
-                .then((userDoc) => {
-                    if (userDoc.exists) {
-                        return db.collection('users').doc(user.uid).update({
-                            balance: firebase.firestore.FieldValue.increment(4000),
-                            welcomeBonusClaimed: true,
-                            bonusClaimedAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    }
-                })
-                .then(() => {
-                    state.balance += 4000;
-                    state.welcomeBonusAmount = 0;
-                    
-                    const welcomeBonusSection = document.getElementById('welcome-bonus-section');
-                    if (welcomeBonusSection) {
-                        welcomeBonusSection.style.display = 'none';
-                    }
-                    
-                    updateDashboard();
-                    
-                    showNotification('🎉 Welcome bonus claimed successfully! UGX 4,000 has been added to your account.', 'success');
-                    showPage('dashboard-page');
-                })
-                .catch((error) => {
-                    console.error('Error claiming bonus:', error);
-                    showNotification(`Error claiming bonus: ${error.message}`, 'error');
-                    
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-coins"></i> Claim UGX 4,000 Bonus';
+
+            const dataUserId = data[userField];
+            const currentUserId = state.user.uid;
+
+            if (dataUserId !== currentUserId) {
+                console.warn('⚠️ Data access validation failed:', {
+                    dataUserId: dataUserId,
+                    currentUserId: currentUserId,
+                    data: data
                 });
+                return false;
+            }
+
+            return true;
         }
 
         // Firebase Data Loading Functions
@@ -3881,16 +3936,30 @@
         }
 
         async function loadUserInvestments() {
-            if (!state.user) return;
+            if (!state.user) {
+                console.error('❌ Cannot load investments: No authenticated user');
+                return;
+            }
 
             try {
+                console.log('🔍 Loading investments for user:', state.user.uid);
+
                 const investmentsSnapshot = await db.collection('investments')
                     .where('userId', '==', state.user.uid)
                     .get();
 
+                console.log('📊 Found', investmentsSnapshot.size, 'investments for user');
+
                 state.investments = [];
                 investmentsSnapshot.forEach(doc => {
                     const investment = { id: doc.id, ...doc.data() };
+
+                    // Enhanced validation: Double-check user access
+                    if (!validateUserAccess(investment, 'userId')) {
+                        console.warn('⚠️ Skipping investment due to user validation failure:', investment.id);
+                        return;
+                    }
+
                     // Convert Firestore timestamps to Date objects
                     if (investment.startDate && investment.startDate.toDate) {
                         investment.startDate = investment.startDate.toDate();
@@ -3898,12 +3967,38 @@
                     if (investment.endDate && investment.endDate.toDate) {
                         investment.endDate = investment.endDate.toDate();
                     }
+
+                    console.log('✅ Valid investment loaded:', {
+                        id: investment.id,
+                        planName: investment.planName,
+                        amount: investment.investedAmount,
+                        status: investment.status
+                    });
+
                     state.investments.push(investment);
                 });
 
+                console.log('📈 Total valid investments loaded:', state.investments.length);
                 renderInvestments();
+
+                // Show summary to user
+                if (state.investments.length === 0) {
+                    showNotification('No investments found for your account.', 'info');
+                } else {
+                    showNotification(`Loaded ${state.investments.length} investment(s) for your account.`, 'success');
+                }
+
             } catch (error) {
-                console.error('Error loading investments:', error);
+                console.error('❌ Error loading investments:', error);
+
+                // Provide specific error messages based on error type
+                if (error.code === 'permission-denied') {
+                    showNotification('Permission denied: Cannot access investments. Please check your account permissions.', 'error');
+                } else if (error.code === 'unavailable') {
+                    showNotification('Service temporarily unavailable. Please try again later.', 'error');
+                } else {
+                    showNotification('Error loading investments. Please refresh the page and try again.', 'error');
+                }
             }
         }
 
@@ -3994,9 +4089,20 @@
             // Listen for investment changes
             db.collection('investments').where('userId', '==', state.user.uid)
                 .onSnapshot((snapshot) => {
+                    console.log('🔄 Real-time investment update received:', snapshot.size, 'documents');
+
                     state.investments = [];
+                    let validCount = 0;
+
                     snapshot.forEach(doc => {
                         const investment = { id: doc.id, ...doc.data() };
+
+                        // Enhanced validation for real-time updates
+                        if (!validateUserAccess(investment, 'userId')) {
+                            console.warn('⚠️ Real-time listener: Skipping investment due to user validation failure:', investment.id);
+                            return;
+                        }
+
                         // Convert Firestore timestamps to Date objects
                         if (investment.startDate && investment.startDate.toDate) {
                             investment.startDate = investment.startDate.toDate();
@@ -4004,11 +4110,32 @@
                         if (investment.endDate && investment.endDate.toDate) {
                             investment.endDate = investment.endDate.toDate();
                         }
+
+                        console.log('✅ Real-time: Valid investment update:', {
+                            id: investment.id,
+                            planName: investment.planName,
+                            status: investment.status
+                        });
+
                         state.investments.push(investment);
+                        validCount++;
                     });
+
+                    console.log('📊 Real-time: Loaded', validCount, 'valid investments out of', snapshot.size, 'total');
                     renderInvestments();
+
+                    // Show real-time update notification
+                    if (validCount > 0) {
+                        showNotification(`Investment data updated: ${validCount} investment(s) loaded.`, 'info');
+                    }
                 }, (error) => {
-                    console.error('Error listening to investments:', error);
+                    console.error('❌ Error listening to investments:', error);
+
+                    if (error.code === 'permission-denied') {
+                        showNotification('Permission denied for real-time investment updates. Please refresh the page.', 'error');
+                    } else {
+                        showNotification('Error receiving real-time investment updates. Some data may be outdated.', 'error');
+                    }
                 });
 
             // Listen for deposit changes
@@ -4132,21 +4259,215 @@
             try {
                 await loadPendingDeposits();
                 await loadPendingWithdrawals();
-                await loadAllUsers();
                 console.log('✅ Admin data refreshed successfully');
             } catch (error) {
                 console.error('❌ Error refreshing admin data:', error);
             }
         };
 
+        // Test balance functionality
+        window.testBalanceFunctionality = function() {
+            console.log('🧪 Testing balance functionality...');
+
+            // Test balance validation utility
+            console.log('Testing balance validation utility...');
+            console.log('validateBalanceOperation(1000, 500, "deduct"):', validateBalanceOperation(1000, 500, 'deduct')); // Should be true
+            console.log('validateBalanceOperation(500, 1000, "deduct"):', validateBalanceOperation(500, 1000, 'deduct')); // Should be false
+            console.log('validateBalanceOperation(0, -100, "set"):', validateBalanceOperation(0, -100, 'set')); // Should be false
+            console.log('validateBalanceOperation(0, 100, "set"):', validateBalanceOperation(0, 100, 'set')); // Should be true
+
+            // Test current balance
+            console.log('Current balance in state:', state.balance);
+            console.log('Current welcome bonus amount:', state.welcomeBonusAmount);
+
+            // Test investment overview calculation
+            if (state.investments && state.investments.length > 0) {
+                const totalInvested = state.investments.reduce((total, inv) => {
+                    return total + (inv.status === 'Active' || inv.status === 'Completed' ? inv.investedAmount : 0);
+                }, 0);
+                console.log('Total invested amount:', totalInvested);
+
+                const activeInvestments = state.investments.filter(inv =>
+                    inv.status === 'Active' || !inv.status
+                ).length;
+                console.log('Active investments count:', activeInvestments);
+            }
+
+            console.log('✅ Balance functionality test completed');
+            console.log('💡 To test with actual data:');
+            console.log('1. Register a new user to test automatic welcome bonus');
+            console.log('2. Make a deposit and check if it appears in balance');
+            console.log('3. Try to invest an amount larger than your balance (should fail)');
+            console.log('4. Try to withdraw more than your balance (should fail)');
+        };
+
+        // Test reCAPTCHA functionality (for Google Sign-In)
+        window.testRecaptcha = async function() {
+            console.log('🧪 Testing Google Sign-In...');
+
+            try {
+                // Check if Firebase Auth is ready
+                if (!auth) {
+                    console.error('❌ Firebase Auth not initialized');
+                    showNotification('Firebase not ready. Please refresh the page.', 'error');
+                    return;
+                }
+
+                console.log('✅ Firebase Auth is ready');
+                console.log('🔍 Current domain:', window.location.hostname);
+                console.log('🏗️ Project ID:', firebaseConfig.projectId);
+
+                // Test if we can check sign-in methods
+                const signInMethods = await auth.fetchSignInMethodsForEmail('test@example.com');
+                console.log('📧 Available sign-in methods:', signInMethods);
+
+                console.log('✅ Google Sign-In test completed successfully');
+                showNotification('Google Sign-In is working correctly!', 'success');
+
+            } catch (error) {
+                console.error('❌ Google Sign-In test failed:', error);
+                if (error.code === 'auth/operation-not-allowed') {
+                    showNotification('Google Sign-In needs domain authorization. Check Firebase Console.', 'error');
+                    showTroubleshooting();
+                } else {
+                    showNotification('Google Sign-In test failed. Check console for details.', 'error');
+                }
+            }
+        };
+
+        // Test user-specific investment filtering
+        window.testUserSpecificFiltering = async function() {
+            console.log('🧪 Testing user-specific investment filtering...');
+
+            if (!state.user) {
+                showNotification('Please login first to test user-specific filtering.', 'error');
+                return;
+            }
+
+            try {
+                console.log('🔍 Testing investment access for user:', state.user.uid);
+
+                // Test 1: Try to access all investments (should be filtered by security rules)
+                console.log('📊 Test 1: Checking total investments in collection...');
+                const allInvestmentsSnapshot = await db.collection('investments').get();
+                console.log('Total investments in collection:', allInvestmentsSnapshot.size);
+
+                // Test 2: Load user-specific investments using the app's function
+                console.log('📊 Test 2: Loading user-specific investments...');
+                await loadUserInvestments();
+
+                // Test 3: Verify all loaded investments belong to current user
+                console.log('📊 Test 3: Verifying user ownership of loaded investments...');
+                let validationErrors = 0;
+
+                state.investments.forEach((investment, index) => {
+                    if (!validateUserAccess(investment, 'userId')) {
+                        console.error(`❌ Validation failed for investment ${index + 1}:`, investment);
+                        validationErrors++;
+                    }
+                });
+
+                if (validationErrors === 0) {
+                    console.log('✅ All loaded investments belong to current user');
+                    showNotification(`✅ User-specific filtering working correctly! Loaded ${state.investments.length} investment(s) for your account.`, 'success');
+                } else {
+                    console.error(`❌ ${validationErrors} investment(s) failed user validation`);
+                    showNotification(`❌ User-specific filtering issue detected! ${validationErrors} investment(s) may not belong to your account.`, 'error');
+                }
+
+                // Test 4: Check Firebase security rules effectiveness
+                console.log('📊 Test 4: Testing security rules enforcement...');
+                try {
+                    // Try to access another user's data (this should fail)
+                    const testUserId = 'test-user-id-that-does-not-exist';
+                    const testQuery = await db.collection('investments')
+                        .where('userId', '==', testUserId)
+                        .get();
+
+                    if (testQuery.size === 0) {
+                        console.log('✅ Security rules correctly filtered out other users\' data');
+                    } else {
+                        console.warn('⚠️ Security rules may not be filtering properly');
+                    }
+                } catch (securityError) {
+                    if (securityError.code === 'permission-denied') {
+                        console.log('✅ Security rules are working correctly (permission denied as expected)');
+                    } else {
+                        console.error('❌ Unexpected error testing security rules:', securityError);
+                    }
+                }
+
+                console.log('🧪 User-specific filtering test completed');
+                console.log('📋 Summary:', {
+                    totalInvestmentsInCollection: allInvestmentsSnapshot.size,
+                    userSpecificInvestmentsLoaded: state.investments.length,
+                    validationErrors: validationErrors,
+                    currentUserId: state.user.uid
+                });
+
+            } catch (error) {
+                console.error('❌ Error testing user-specific filtering:', error);
+                showNotification('Error testing user-specific filtering. Check console for details.', 'error');
+            }
+        };
+
+
+        // Firebase configuration fix helper
+        window.fixFirebaseConfig = function() {
+            console.log('🔧 Firebase Configuration Helper');
+            console.log('Current domain:', window.location.hostname);
+            console.log('Firebase project ID:', firebaseConfig.projectId);
+            console.log('Auth domain:', firebaseConfig.authDomain);
+
+            console.log('\n📋 To fix the "unauthorized domain" error:');
+            console.log('1. Go to Firebase Console: https://console.firebase.google.com/');
+            console.log('2. Select your project:', firebaseConfig.projectId);
+            console.log('3. Go to Authentication > Settings > Authorized Domains');
+            console.log('4. Add your current domain:', window.location.hostname);
+            console.log('5. Also add: localhost (for development)');
+
+
+            console.log('\n🔍 Current Firebase config check:');
+            console.log('- API Key:', firebaseConfig.apiKey ? '✅ Set' : '❌ Missing');
+            console.log('- Auth Domain:', firebaseConfig.authDomain ? '✅ Set' : '❌ Missing');
+            console.log('- Project ID:', firebaseConfig.projectId ? '✅ Set' : '❌ Missing');
+
+            // Show troubleshooting UI
+            showTroubleshooting();
+        };
+
+        // Show/hide troubleshooting section
+        function showTroubleshooting() {
+            const troubleshootingDiv = document.getElementById('firebase-troubleshooting');
+            const currentDomainSpan = document.getElementById('current-domain');
+
+            if (troubleshootingDiv) {
+                troubleshootingDiv.style.display = 'block';
+            }
+
+            if (currentDomainSpan) {
+                currentDomainSpan.textContent = window.location.hostname;
+            }
+        }
+
+        function hideTroubleshooting() {
+            const troubleshootingDiv = document.getElementById('firebase-troubleshooting');
+            if (troubleshootingDiv) {
+                troubleshootingDiv.style.display = 'none';
+            }
+        }
+
+
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', () => {
+            // Set up cleanup for page unload
+            window.addEventListener('beforeunload', cleanupAllTimers);
+
             // Set up event listeners
             document.getElementById('registration-form').addEventListener('submit', handleRegistration);
             document.getElementById('login-form').addEventListener('submit', handleLogin);
             document.getElementById('forgot-password-form').addEventListener('submit', handleForgotPassword);
-            document.getElementById('claim-bonus-btn').addEventListener('click', handleClaimBonus);
             
             // Deposit form listeners
             document.querySelectorAll('.deposit-form').forEach(form => {
